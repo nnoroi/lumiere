@@ -1,0 +1,24 @@
+:root {
+  --bg-main: #08080C;
+  --bg-section: #15151C;
+  --bg-card: #111827;
+
+  --accent-red: #E50914;
+  --accent-red-hover: #FF1E2D;
+
+  --text-main: #F5F5F5;
+  --text-muted: #A1A1AA;
+
+  --border-dark: #2A2A35;
+
+  --seat-available: #2DD4BF;
+  --seat-selected: #E50914;
+  --seat-unavailable: #3F1D24;
+}
+
+
+
+.navbar-custom {
+    background-color: #000000;  
+    border-bottom: 1px solid var(--border-dark);
+}
