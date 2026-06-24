@@ -16,9 +16,30 @@
   --seat-unavailable: #3F1D24;
 }
 
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Arial', sans-serif;
+}
 
-
-.navbar-custom {
+.navbar {
     background-color: #000000;  
     border-bottom: 1px solid var(--border-dark);
 }
+
+.navbar-brand {
+    color:red;
+}
+
+.navbar-brand:hover {
+  color: white;
+}
+
+.page-title {
+    color: var(--text-main);
+    font-size: 2rem;
+}
+
+
+
+
