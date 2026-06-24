@@ -40,6 +40,34 @@ body {
     font-size: 2rem;
 }
 
+.search form {
+    display:flex;
+    align-items: center;
+    border: 2px;
+    border-radius: 20px;
+    overflow: hidden;
+}
 
+.search input[type="text"] {
+    border: none;
+    padding: 8px 15px;
+    outline: none;
+    width: 200px;
+}
 
+.search button {
+    border: none;
+    background: transparent;
+    padding: 8px 15px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s;
+}
 
+.search button:hover {
+    color: red;
+}
+
+.navbar-brand{
+    color: red;
+}
