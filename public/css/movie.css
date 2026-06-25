@@ -1,0 +1,26 @@
+.movie-description {
+    color:beige !important;
+}
+
+.badge {
+    background-color: red;
+    color: white;
+}
+
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%; 
+    position: relative;
+    height: 0;
+    border-radius: 12px;  
+    border: 1px solid #2A2A35;
+}
+
+/* Forces the inner iframe to completely fill up the dynamic container */
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}

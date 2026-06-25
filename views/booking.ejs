@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets - <%= movie.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style1.css">
+    <link rel="stylesheet" href="/css/movie.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+    <nav class="navbar mb-4">
+    <div class="navbar-container">
+        <a class="navbar-brand" href="/">LUMIERE</a>
+        
+        <div class="search">
+            <form id="searchForm">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Search Movies" 
+                    aria-label="Search">
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    </nav>
+    <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <img src="<%= movie.poster %>" class="img-fluid rounded shadow-lg border border-secondary mb-4" alt="<%= movie.title %> poster">
+            
+            <div class="bg-dark p-4 rounded-3 border border-secondary">
+                <p class="mb-2"><strong>🎬 Genre:</strong> <%= movie.genre %></p>
+                <p class="mb-2"><strong>⏱️ Duration:</strong> <%= movie.duration %> minutes</p>
+                <p class="mb-2"><strong>👤 Director:</strong> <%= movie.director %></p>
+                <p class="mb-2"><strong>🎭 Cast:</strong> <%= movie.cast.join(', ') %></p>
+                <p class="mb-2"><strong>🌍 Country:</strong> <%= movie.country %></p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold text-white mb-2"><%= movie.title %></h1>
+            
+            <p class="movie-description fs-5 mb-4"><em><%= movie.description %></em></p>
+            
+            <p class="mb-4"><strong>⭐ Rating:</strong> <span class="badge bg-warning text-dark"><%= movie.rating %></span></p>
+
+            <p class="mb-3"><strong>📺 Trailer:</strong></p>
+            <div class="video-responsive mb-4">
+                <% let embedUrl = movie.trailer.replace("watch?v=", "embed/"); %>
+                <iframe 
+                    src="<%= embedUrl %>" 
+                    title="<%= movie.title %> Official Trailer"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <h3 class="h4 text-white mb-3">Select Seats</h3>
+            <div class="seat-map-placeholder p-5 text-center rounded mb-4" style="background-color: #15151C; border: 1px dashed #2A2A35;">
+                <p class="text-muted mb-0"></p> //will add seats here
+            </div>
+
+            <button class="btn btn-primary btn-lg w-100" style="background-color: #E50914; border: none;">
+                Proceed to Payment for £<%= movie.price || '12.50' %>
+            </button>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="col-1">
+            <h3>Links</h3>
+            <a href="/">Movies</a>
+        </div>
+        <div class="col-2">
+            <h3>Newsletter</h3>
+            <form>
+                <input type="email" placeholder="Your Email Address" required>
+                <br>
+                <button type="submit">SUBSCRIBE NOW</button>
+            </form>
+        </div>
+        <div class="col-3">
+            <h3>Contact</h3>
+            <p>123, XYZ Road, BSK 3<br> Birmingham</p>
+            <div class="social-icons">
+                <i class="fa-brands fa-tiktok"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-facebook"></i>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
