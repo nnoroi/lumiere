@@ -46,7 +46,8 @@ app.get('/checkout-summary', (req, res) => {
     const selectedSeats = req.query.seats || "A1, A2";
     const totalTickets = req.query.tickets || 2;
 
-    const selectedMovie = moviesData.find(m => m.id == movieId || m.id == parseInt(movieId)) || moviesData[0];
+    // FIX: Using the exact same matching logic as your teammate's route above
+    const selectedMovie = moviesData.find(m => m.id === movieId || m.id === parseInt(movieId)) || moviesData[0];
 
     res.render('checkout', { 
         movie: selectedMovie,

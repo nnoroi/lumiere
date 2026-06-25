@@ -143,3 +143,23 @@
         }
     });
 </script>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const paymentBtn = document.querySelector('button[style*="background-color: #E50914"]');
+        if (paymentBtn) {
+            paymentBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Read search variables safely using both case configurations
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('movieId') || urlParams.get('movieid') || urlParams.get('MovieId') || '1';
+                
+                window.location.href = '/checkout-summary?movieId=' + id + '&time=20:00&seats=A1,A2&tickets=2';
+            });
+        }
+    });
+</script>
