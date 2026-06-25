@@ -1,0 +1,60 @@
+const express = require('express');
+const router = express.Router();
+const moviesData = require('../data/movies.json'); // Step back one folder to read data safely
+
+// 1. Core Requirement 4: GET Route for the Checkout Page
+// Expects incoming data from the previous movie details/seat selector steps via query string
+router.get('/booking', (req, res) => {
+    const movieId = req.query.movieId;
+    const selectedTime = req.query.time || "Not Selected";
+    const selectedSeats = req.query.seats || "None";
+    const totalTickets = req.query.tickets || 1;
+
+    // Look for the specific movie requested, fallback to the first movie if not found
+    const selectedMovie = moviesData.find(movie => movie.id == movieId) || moviesData[0];
+
+    // Renders views/checkout.ejs and passes the selected parameters
+    res.render('checkout', { 
+        movie: selectedMovie,
+        time: selectedTime,
+        seats: selectedSeats,
+        tickets: totalTickets
+    });
+});
+
+// 2. Core Requirement 4 & 5: POST Route for Handling Checkout Submissions
+router.post('/confirm-booking', (req, res) => {
+    const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
+
+    // Core Requirement 4: Generate fake booking reference (Example: CIN-2847) [cite: 71]
+    const randomDigits = Math.floor(1000 + Math.random() * 9000);
+    const bookingReference = `CIN-${randomDigits}`;
+
+    // Renders the Core Requirement 5 final confirmation and booking summary layout [cite: 73]
+    res.send(`
+        <div style="background: #212529; color: white; padding: 40px; font-family: sans-serif; text-align: center; max-width: 500px; margin: 50px auto; border-radius: 10px; border: 2px solid #ffc107; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);">
+            <h2 style="color: #ffc107; font-weight: bold; margin-bottom: 5px;">🎉 Booking Confirmed</h2>
+            <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 20px;">Thank you for your order!</p>
+            <hr style="border-color: #495057; margin: 20px 0;">
+            
+            <p style="font-size: 1.1rem; margin-bottom: 25px;">
+                <strong>Confirmation Code:</strong> 
+                <span style="background: #ffc107; color: black; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-family: monospace;">${bookingReference}</span>
+            </p>
+            
+            <div style="text-align: left; background: #343a40; padding: 20px; border-radius: 6px; line-height: 1.6;">
+                <p style="margin: 0 0 8px 0;"><strong>Movie:</strong> ${movieTitle || 'N/A'}</p>
+                <p style="margin: 0 0 8px 0;"><strong>Showtime:</strong> ${showTime || 'N/A'}</p>
+                <p style="margin: 0 0 8px 0;"><strong>Selected Seats:</strong> ${selectedSeats || 'N/A'}</p>
+                <p style="margin: 0 0 8px 0;"><strong>Total Tickets:</strong> ${tickets || 1}</p>
+                <hr style="border-color: #495057; margin: 12px 0;">
+                <p style="margin: 0 0 8px 0;"><strong>Customer Name:</strong> ${name}</p>
+                <p style="margin: 0;"><strong>Email:</strong> ${email}</p>
+            </div>
+            
+            <a href="/" style="display: inline-block; margin-top: 25px; color: #ffc107; text-decoration: none; font-weight: bold; border: 1px solid #ffc107; padding: 8px 20px; border-radius: 4px; transition: 0.2s;">Return Home</a>
+        </div>
+    `);
+});
+
+module.exports = router;
