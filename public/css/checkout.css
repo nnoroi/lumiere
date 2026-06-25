@@ -1,0 +1,87 @@
+/* public/css/checkout.css */
+
+/* Core page layout rules */
+body.checkout-page {
+    background-color: #121212;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+}
+
+/* Container Card styling */
+.checkout-card {
+    background-color: #1e1e1e;
+    border: 1px solid #2d2d2d;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    padding: 2.5rem;
+    max-width: 550px;
+    margin: 3rem auto;
+}
+
+/* Header highlight matching the theme */
+.checkout-title {
+    color: #ffc107;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Booking summary display container */
+.summary-box {
+    background-color: #121212;
+    border-left: 4px solid #ffc107;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* Text fields and input states styling */
+.checkout-page .form-label {
+    font-weight: 600;
+    color: #ced4da;
+}
+
+.checkout-page .form-control {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #3d3d3d;
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.checkout-page .form-control:focus {
+    background-color: #333333;
+    color: #ffffff;
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
+.checkout-page .form-control[readonly] {
+    background-color: #1a1a1a;
+    color: #a8a8a8;
+    cursor: not-allowed;
+}
+
+/* Pre-styled ticket icon inside the group wrapper */
+.checkout-page .input-group-text {
+    background-color: #2b2b2b;
+    color: #ffc107;
+    border: 1px solid #3d3d3d;
+}
+
+/* Golden theme button styles */
+.btn-checkout {
+    background-color: #ffc107;
+    color: #121212;
+    font-weight: 700;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-checkout:hover {
+    background-color: #e0a800;
+    color: #121212;
+    transform: translateY(-1px);
+}

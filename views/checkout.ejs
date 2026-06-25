@@ -1,61 +1,145 @@
-// routes/checkout.js
-const express = require('express');
-const router = express.Router();
-const moviesData = require('../data/movies.json'); // Step back one folder to read data safely
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Lumiere Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style1.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body class="bg-dark text-white">
 
-// 1. Core Requirement 4: GET Route for the Checkout Page
-// Expects incoming data from the previous movie details/seat selector steps via query string
-router.get('/booking', (req, res) => {
-    const movieId = req.query.movieId;
-    const selectedTime = req.query.time || "Not Selected";
-    const selectedSeats = req.query.seats || "None";
-    const totalTickets = req.query.tickets || 1;
-
-    // Look for the specific movie requested, fallback to the first movie if not found
-    const selectedMovie = moviesData.find(movie => movie.id == movieId) || moviesData[0];
-
-    // Renders views/checkout.ejs and passes the selected parameters
-    res.render('checkout', { 
-        movie: selectedMovie,
-        time: selectedTime,
-        seats: selectedSeats,
-        tickets: totalTickets
-    });
-});
-
-// 2. Core Requirement 4 & 5: POST Route for Handling Checkout Submissions
-router.post('/confirm-booking', (req, res) => {
-    const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
-
-    // Core Requirement 4: Generate fake booking reference (Example: CIN-2847) [cite: 71]
-    const randomDigits = Math.floor(1000 + Math.random() * 9000);
-    const bookingReference = `CIN-${randomDigits}`;
-
-    // Renders the Core Requirement 5 final confirmation and booking summary layout [cite: 73]
-    res.send(`
-        <div style="background: #212529; color: white; padding: 40px; font-family: sans-serif; text-align: center; max-width: 500px; margin: 50px auto; border-radius: 10px; border: 2px solid #ffc107; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);">
-            <h2 style="color: #ffc107; font-weight: bold; margin-bottom: 5px;">🎉 Booking Confirmed</h2>
-            <p style="color: #6c757d; font-size: 0.9rem; margin-bottom: 20px;">Thank you for your order!</p>
-            <hr style="border-color: #495057; margin: 20px 0;">
+    <div class="container my-5">
+        <div class="card bg-secondary text-white p-4 mx-auto shadow" style="max-width: 550px; border-radius: 12px; background-color: #2c2c35 !important;">
+            <h2 class="mb-4 text-warning fw-bold"><i class="fa-solid fa-credit-card me-2"></i>Checkout Summary</h2>
             
-            <p style="font-size: 1.1rem; margin-bottom: 25px;">
-                <strong>Confirmation Code:</strong> 
-                <span style="background: #ffc107; color: black; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-family: monospace;">${bookingReference}</span>
-            </p>
-            
-            <div style="text-align: left; background: #343a40; padding: 20px; border-radius: 6px; line-height: 1.6;">
-                <p style="margin: 0 0 8px 0;"><strong>Movie:</strong> ${movieTitle || 'N/A'}</p>
-                <p style="margin: 0 0 8px 0;"><strong>Showtime:</strong> ${showTime || 'N/A'}</p>
-                <p style="margin: 0 0 8px 0;"><strong>Selected Seats:</strong> ${selectedSeats || 'N/A'}</p>
-                <p style="margin: 0 0 8px 0;"><strong>Total Tickets:</strong> ${tickets || 1}</p>
-                <hr style="border-color: #495057; margin: 12px 0;">
-                <p style="margin: 0 0 8px 0;"><strong>Customer Name:</strong> ${name}</p>
-                <p style="margin: 0;"><strong>Email:</strong> ${email}</p>
+            <div class="bg-dark p-3 rounded mb-4" style="background-color: #1a1a24 !important;">
+                <h5 class="text-warning fw-bold mb-2"><%= movie.title %></h5>
+                <p class="mb-1 small text-white-50"><strong>Showtime:</strong> <%= time %></p>
+                <p class="mb-0 small text-white-50"><strong>Selected Seats:</strong> <%= seats %></p>
             </div>
-            
-            <a href="/" style="display: inline-block; margin-top: 25px; color: #ffc107; text-decoration: none; font-weight: bold; border: 1px solid #ffc107; padding: 8px 20px; border-radius: 4px; transition: 0.2s;">Return Home</a>
-        </div>
-    `);
-});
 
-module.exports = router;
+            <form action="/confirm-booking" method="POST">
+                <input type="hidden" name="movieTitle" value="<%= movie.title %>">
+                <input type="hidden" name="showTime" value="<%= time %>">
+                <input type="hidden" name="selectedSeats" value="<%= seats %>">
+                <input type="hidden" name="tickets" value="<%= tickets %>">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Name</label>
+                    <input type="text" class="form-control" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" name="email" required placeholder="name@example.com">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tickets</label>
+                    <input type="text" class="form-control bg-dark text-white-50 border-0" value="<%= tickets %> Ticket(s)" readonly style="background-color: #1a1a24 !important;">
+                </div>
+
+                <hr class="border-secondary my-4">
+
+                <h5 class="text-warning fw-bold mb-3"><i class="fa-solid fa-wallet me-2"></i>Select Payment Method</h5>
+                
+                <div class="d-flex gap-3 mb-4">
+                    <div class="form-check p-3 rounded border border-secondary flex-fill text-center bg-dark option-box" style="cursor: pointer; background-color: #1a1a24 !important;">
+                        <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cardPay" value="Credit/Debit Card" checked>
+                        <label class="form-check-label w-100 fw-bold" for="cardPay" style="cursor: pointer;">
+                            <i class="fa-solid fa-card-membership me-2 text-warning"></i>Card
+                        </label>
+                    </div>
+                    <div class="form-check p-3 rounded border border-secondary flex-fill text-center bg-dark option-box" style="cursor: pointer; background-color: #1a1a24 !important;">
+                        <input class="form-check-input d-none" type="radio" name="paymentMethod" id="paypalPay" value="PayPal">
+                        <label class="form-check-label w-100 fw-bold" for="paypalPay" style="cursor: pointer;">
+                            <i class="fa-brands fa-paypal me-2 text-info"></i>PayPal
+                        </label>
+                    </div>
+                </div>
+
+                <div id="paymentInputsContainer" class="p-3 rounded mb-4" style="background-color: #1a1a24; border: 1px dashed #444;">
+                    
+                    <div id="cardFields">
+                        <div class="mb-3">
+                            <label class="form-label small text-white-50">Card Number</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0 card-mask" placeholder="1234 5678 1234 5678">
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="form-label small text-white-50">Expiry</label>
+                                <input type="text" class="form-control bg-secondary text-white border-0" placeholder="MM/YY">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small text-white-50">CVV</label>
+                                <input type="password" class="form-control bg-secondary text-white border-0" placeholder="***" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paypalFields" class="d-none text-center py-2">
+                        <p class="small text-white-50 mb-2">You will be securely redirected to PayPal to verify account login credentials.</p>
+                        <span class="badge bg-info text-dark p-2 fs-6"><i class="fa-brands fa-paypal me-1"></i> Sandbox Test Mode Active</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-warning text-dark w-100 fw-bold py-2 fs-5">
+                    Confirm & Purchase
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardRadio = document.getElementById('cardPay');
+            const paypalRadio = document.getElementById('paypalPay');
+            const cardFields = document.getElementById('cardFields');
+            const paypalFields = document.getElementById('paypalFields');
+            const optionBoxes = document.querySelectorAll('.option-box');
+
+            // Highlight selected payment card box style border
+            function updateSelectionHighlight() {
+                optionBoxes.forEach(box => {
+                    const radio = box.querySelector('input[type="radio"]');
+                    if(radio.checked) {
+                        box.style.borderColor = '#ffc107';
+                        box.style.backgroundColor = '#252532';
+                    } else {
+                        box.style.borderColor = '#444';
+                        box.style.backgroundColor = '#1a1a24';
+                    }
+                });
+            }
+
+            // Click interceptor mapping to visual cards
+            optionBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.querySelector('input[type="radio"]').checked = true;
+                    triggerViewToggle();
+                });
+            });
+
+            function triggerViewToggle() {
+                if (cardRadio.checked) {
+                    cardFields.classList.remove('d-none');
+                    paypalFields.classList.add('d-none');
+                } else if (paypalRadio.checked) {
+                    cardFields.classList.add('d-none');
+                    paypalFields.classList.remove('d-none');
+                }
+                updateSelectionHighlight();
+            }
+
+            cardRadio.addEventListener('change', triggerViewToggle);
+            paypalRadio.addEventListener('change', triggerViewToggle);
+            
+            // Initialization run
+            triggerViewToggle();
+        });
+    </script>
+</body>
+</html>

@@ -82,3 +82,34 @@
     <script src="/app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    document.addEventListener('click', function(event) {
+        // Find the closest clickable element from what was actually clicked
+        const target = event.target.closest('a, button, div, span');
+        if (!target) return;
+
+        // Get the text inside the clicked item
+        const text = target.textContent.trim().toLowerCase();
+
+        // If the clicked element contains your target keywords
+        if (text.includes('proceed') || text.includes('payment') || text.includes('book')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Force the browser to jump directly to your checkout page
+            window.location.href = '/booking?movieId=1&time=7:30+PM&seats=A1,A2&tickets=2';
+        }
+    }, true); // The 'true' flag ensures this interceptor runs before any other code can block it
+</script>
