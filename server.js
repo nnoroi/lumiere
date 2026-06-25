@@ -2,11 +2,11 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const moviesData = require('./data/movies.json'); 
+const timesData = require('./data/times.json')
+
 
 app.set("view engine", "ejs");
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
@@ -19,8 +19,9 @@ app.get("/booking", (req,res) => {
   if (!selectedMovie) {
     return res.status(404).send("Movie not found");
   }
-  res.render('booking', {movie: selectedMovie});
-})
+  const movieTimes = timesData.filter(t => t.movieId === selectedMovie.id || t.movieId === String(selectedMovie.id));
+  res.render('booking', {movie: selectedMovie, showtimes: movieTimes});
+});
 app.listen(3000, () => {
   console.log('Express server running at http://localhost:3000/');
 });

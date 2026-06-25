@@ -9,7 +9,7 @@
 
 .video-responsive {
     overflow: hidden;
-    padding-bottom: 56.25%; 
+    padding-bottom: 77.5%; 
     position: relative;
     height: 0;
     border-radius: 12px;  
@@ -23,4 +23,28 @@
     height: 100%;
     width: 100%;
     position: absolute;
+}
+
+
+
+.showtime-pill {
+    background-color: #15151C !important;
+    border: 1px solid #2A2A35 !important;
+    color: #F5F5F5 !important;
+    padding: 9px 16px !important;
+    border-radius: 8px !important;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.showtime-pill:hover {
+    border-color: #E50914 !important; /* Highlights red on hover */
+    cursor: pointer;
+    transform: translateY(-2px);
+}
+
+.showtime-pill .text-muted {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: white !important;
 }

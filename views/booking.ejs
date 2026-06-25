@@ -29,6 +29,8 @@
         </div>
     </div>
     </nav>
+
+
     <div class="container mt-5">
     <div class="row">
         <div class="col-md-4 mb-4">
@@ -61,6 +63,20 @@
                     allowfullscreen>
                 </iframe>
             </div>
+        </div>
+        <h3 class="h4 text-white mb-3">Available Showtimes</h3>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <% if (showtimes && showtimes.length > 0) { %>
+            <% showtimes.forEach(show => { %>
+                <button class="btn btn-outline-light showtime-pill" data-showing-id="<%= show.showingId %> ">
+                    <span class="d-block small text-muted"><%= show.date %></span>
+                    <strong><%= show.time %></strong>
+                </button>
+            <% }); %>
+            <% } else { %>
+            <p class="text-danger">No active showtimes found for this film today.</p>
+        <% } %>
+        </div>
 
             <h3 class="h4 text-white mb-3">Select Seats</h3>
             <div class="seat-map-placeholder p-5 text-center rounded mb-4" style="background-color: #15151C; border: 1px dashed #2A2A35;">
