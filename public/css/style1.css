@@ -182,6 +182,13 @@ body {
     padding: 30px 5%;
 }
 
+.card {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main);
+    border: 1px solid var(--border-dark);
+
+}
+
 .card-body {
   background-color: var(--bg-card) !important;
   color: var(--text-main);
