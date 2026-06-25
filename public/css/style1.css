@@ -1,18 +1,18 @@
 :root {
-  --bg-main: #08080C;
-  --bg-section: #15151C;
-  --bg-card: #111827;
+  --bg-main: #0B0F14 ;
+  --bg-section: #121820;
+  --bg-card: #171F2A;
 
-  --accent-red: #E50914;
-  --accent-red-hover: #FF1E2D;
+  --accent-orange-red: #D13704;
+  --accent-orange-red-hover: #F04A12;
 
   --text-main: #F5F5F5;
-  --text-muted: #A1A1AA;
+  --text-muted: #A7ADB8;
 
   --border-dark: #2A2A35;
 
   --seat-available: #2DD4BF;
-  --seat-selected: #E50914;
+  --seat-selected: #D13704 ;
   --seat-unavailable: #3F1D24;
 }
 
@@ -36,13 +36,14 @@ body {
 }
 
 .navbar-brand {
+    color: var(--accent-orange-red) !important;
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
     transition: color 0.2s;
 }
 .navbar-brand:hover {
-    color: white;
+    color: white !important; 
 }
 
 
@@ -65,7 +66,7 @@ body {
 }
 
 .search form:hover {
-    border-color: red;            /* Smooth red border outline on hover */
+    border-color: #D13704;            /* Smooth red border outline on hover */
 }
 
 .search input[type="text"] {
@@ -76,7 +77,7 @@ body {
 
     /* --- THE FIX: Blends text area inside your container smoothly --- */
     background: transparent !important;
-    color: #F5F5F5;
+    color: var(--text-main) !important;
     height: 100%;
 }
 
@@ -97,11 +98,11 @@ body {
 }
 
 .search button:hover {
-    color: red;
+    color: #D13704;
 }
 
 .navbar-brand{
-    color: red;
+    color: #D13704;
 }
 /* ======================================================== */
 
@@ -132,7 +133,7 @@ body {
 
     /* Forces text alignment right into the dead center */
     background: transparent !important;
-    color: #F5F5F5 !important;
+    color: var(--text-main) !important;
     line-height: 38px !important;          /* Matches form height exactly to center text */
     display: flex !important;
     align-items: center !important;
@@ -141,7 +142,7 @@ body {
 
 /* Smooth border color transition when user hovers over search bar */
 .search form:hover {
-    border-color: red;
+    border-color: #D13704;
 }
 
 
@@ -156,7 +157,7 @@ body {
 /* Forces structural reset for input settings so text centers naturally */
 .search input[type="text"] {
     background: transparent !important;
-    color: #F5F5F5 !important;
+    color: var(--text-main) !important;
     height: 100%;
     box-sizing: border-box;
 }
@@ -219,18 +220,29 @@ body {
 }
 
 .movie-rating {
-  display: inline-block;
-  background-color: var(--accent-red);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 100px;
-  font-weight: bold;
-  font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--accent-orange-red);
+    color: var(--text-main);
+    border: 2px solid var(--accent-orange-red);
+
+    min-width: 42px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 .btn-lumiere {
-    background-color: var(--accent-red);
-    color: white;
+    background-color: var(--accent-orange-red);
+    color: var(--text-main);
     border: none;
     border-radius: 8px;
     padding: 10px 18px;
@@ -239,9 +251,11 @@ body {
     cursor: pointer;
 }
 
+
+
 .btn-lumiere:hover {
-    background-color: var(--accent-red-hover);
-    color: white;
+    background-color: var(--accent-orange-red-hover);
+    color: var(--text-main);
     transition: 0.5s ease;
     transform: scale(1.05);
 }
@@ -256,7 +270,7 @@ body {
 
 .movie-card {
     background-color: #1c1c1c;
-    color: white;
+    color: var(--text-main);
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease;
