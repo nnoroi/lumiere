@@ -5,6 +5,7 @@ const moviesData = require('./data/movies.json');
 const timesData = require('./data/times.json');
 const showingsData = require('./data/showings.json');
 
+
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -39,41 +40,28 @@ app.get('/api/showing/:id', (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log('Express server running at http://localhost:3000/');
-});
+app.post('/checkout', (req, res) => {
+  const { movieId, selectedTime, selectedSeats } = req.body;
+  const timeId = parseInt(selectedTime);
+  const matchingTimeObj = timesData.find(t => t.showingId === timeId)
+  const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
+  let totalSeatsArray = []
+  totalSeatsArray = selectedSeats.split(",");
+
+  const totalTickets = totalSeatsArray.length;
 
 
-
-
-
-
-
-
-
-
-
-
-// ========================================================
-// Checkout & Confirm Booking
-// ========================================================
-app.get('/checkout-summary', (req, res) => {
-    const movieId = req.query.movieId;
-    const selectedTime = req.query.time || "20:00";
-    const selectedSeats = req.query.seats || "A1, A2";
-    const totalTickets = req.query.tickets || 2;
-
-    const selectedMovie = moviesData.find(m => m.id === movieId || m.id === parseInt(movieId)) || moviesData[0];
 
     res.render('checkout', { 
         movie: selectedMovie,
-        time: selectedTime,
+        time: matchingTimeObj.time,
         seats: selectedSeats,
         tickets: totalTickets
     });
 });
 
-// Final Unified Booking Process Handler
+
+
 app.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
 
@@ -81,7 +69,6 @@ app.post('/confirm-booking', (req, res) => {
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const bookingReference = `CIN-${randomDigits}`;
 
-    // Safely hand over data variables to your brand new template layout
     res.render('confirm-booking', {
         bookingReference,
         movieTitle,
@@ -91,4 +78,9 @@ app.post('/confirm-booking', (req, res) => {
         name,
         email,
     });
+});
+
+
+app.listen(3000, () => {
+  console.log('Express server running at http://localhost:3000/');
 });
