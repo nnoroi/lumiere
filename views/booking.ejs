@@ -50,7 +50,7 @@
                 
                 <p class="movie-description fs-5 mb-4"><em><%= movie.description %></em></p>
                 
-                <p class="mb-4"><strong>⭐ Rating:</strong> <span class="badge bg-warning text-dark"><%= movie.rating %></span></p>
+                <p class="mb-4"><strong>⭐ Rating:</strong> <span class="badge"><%= movie.rating %></span></p>
 
                 <p class="mb-3"><strong>📺 Trailer:</strong></p>
                 <div class="video-responsive mb-4">
@@ -87,6 +87,11 @@
                     <div id="seat-map-container" class="p-5 text-center rounded mb-4" style="background-color: #15151C; border: 1px dashed #2A2A35;">
                         <p class="text-muted mb-0">Please select a showtime above to view available seating.</p>
                     </div>
+
+                    <button type="submit" id="checkout-btn" class="btn btn-lumiere btn-lg w-100" disabled>
+                        Select a session and seats to proceed
+                    </button>
+                </form>
                     <form id="checkout-form" action="/checkout" method="POST">
                         <button type="submit" id="checkout-btn" class="btn btn-primary btn-lg w-100" style="background-color: #E50914; border: none;" disabled>
                             Select a session and seats to proceed

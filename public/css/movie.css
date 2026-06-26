@@ -1,10 +1,28 @@
+:root {
+  --bg-main: #0B0F14 ;
+  --bg-section: #121820;
+  --bg-card: #171F2A;
+
+  --accent-orange-red: #D13704;
+  --accent-orange-red-hover: #F04A12;
+
+  --text-main: #F5F5F5;
+  --text-muted: #A7ADB8;
+
+  --border-dark: #2A2A35;
+
+  --seat-available: #2DD4BF;
+  --seat-selected: #D13704 ;
+  --seat-unavailable: #3F1D24;
+}
+
 .movie-description {
-    color:beige !important;
+    color: var(--text-muted) !important;
 }
 
 .badge {
-    background-color: red;
-    color: white;
+    background-color: var(--accent-orange-red);
+    color: var(--text-main);
 }
 
 .video-responsive {
@@ -13,7 +31,7 @@
     position: relative;
     height: 0;
     border-radius: 12px;  
-    border: 1px solid #2A2A35;
+    border: 1px solid var(--accent-orange-red);
 }
 
 /* Forces the inner iframe to completely fill up the dynamic container */
@@ -25,12 +43,15 @@
     position: absolute;
 }
 
-
+.btn-lumiere{
+    background-color: var(--accent-orange-red) !important ; 
+    border: none;
+}
 
 .showtime-pill {
-    background-color: #15151C !important;
-    border: 1px solid #2A2A35 !important;
-    color: #F5F5F5 !important;
+    background-color: var(--bg-main) !important;
+    border: 1px solid var(--accent-orange-red) !important;
+    color: var(--text-main) !important;
     padding: 9px 16px !important;
     border-radius: 8px !important;
     text-align: center;
@@ -38,7 +59,7 @@
 }
 
 .showtime-pill:hover {
-    border-color: #E50914 !important; /* Highlights red on hover */
+    border-color: var(--accent-orange-red-hover) !important; /* Highlights red on hover */
     cursor: pointer;
     transform: translateY(-2px);
 }
@@ -46,5 +67,5 @@
 .showtime-pill .text-muted {
     font-size: 0.75rem;
     letter-spacing: 0.5px;
-    color: white !important;
+    color: var(--text-muted) !important;
 }

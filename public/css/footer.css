@@ -1,3 +1,21 @@
+:root {
+  --bg-main: #0B0F14 ;
+  --bg-section: #121820;
+  --bg-card: #171F2A;
+
+  --accent-orange-red: #D13704;
+  --accent-orange-red-hover: #F04A12;
+
+  --text-main: #F5F5F5;
+  --text-muted: #A7ADB8;
+
+  --border-dark: #2A2A35;
+
+  --seat-available: #2DD4BF;
+  --seat-selected: #D13704 ;
+  --seat-unavailable: #3F1D24;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -9,8 +27,8 @@
     margin-top: 150px !important;
     width:100% !important;
     padding: 100px 15%;
-    background: black;
-    color: #D13704;
+    background: var(--bg-section);
+    color: var(--text-main);
     display: flex;
 }
 
@@ -31,11 +49,12 @@
 .col-1 a{
     display: block;
     text-decoration: none;
-    color: #efefef;
+    color: var(--text-main);
     margin-bottom: 10px;
 }
 
 form input{
+    border: 2px solid var(--accent-orange-red);
     width: 400px;
     height: 45px;
     border-radius: 4px;
@@ -48,8 +67,8 @@ form input{
 
 form button{
     background: transparent;
-    border: 2px solid #fff;
-    color: #D13704;
+    border: 2px solid var(--accent-orange-red);
+    color: var(--text-main);
     border-radius: 30px;
     padding: 10px 30px; 
     font-size: 15px;
