@@ -1,0 +1,106 @@
+/* public/css/checkout.css */
+
+/* Core page layout rules matching teammate's dark scheme */
+body.checkout-page {
+    background-color: #0F0F14;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #F5F5F5;
+}
+
+/* Container Card styling matched to the dark dashboard panels */
+.checkout-card {
+    background-color: #15151C;
+    border: 1px solid #2A2A35;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    padding: 2.5rem;
+    max-width: 550px;
+    margin: 3rem auto;
+}
+
+/* Header highlight matching the theme accents */
+.checkout-title {
+    color: #F5F5F5;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Booking summary display container matching the seat map placeholders */
+.summary-box {
+    background-color: #0F0F14;
+    border-left: 4px solid #E50914; /* Crimson Red Theme Accent */
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* Text fields and input states styling */
+.checkout-page .form-label {
+    font-weight: 600;
+    color: #F5F5F5;
+}
+
+.checkout-page .form-control {
+    background-color: #15151C;
+    color: #ffffff;
+    border: 1px solid #2A2A35;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.checkout-page .form-control:focus {
+    background-color: #1C1C24;
+    color: #ffffff;
+    border-color: #E50914; /* Sharp Red Outline on focus */
+    box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25);
+    outline: none;
+}
+
+.checkout-page .form-control[readonly] {
+    background-color: #0F0F14;
+    color: #8A8A98;
+    cursor: not-allowed;
+    border-color: #2A2A35;
+}
+
+/* Interactive custom choice box selection highlights */
+.option-box {
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #2A2A35 !important;
+}
+
+.option-box:hover {
+    border-color: #E50914 !important;
+    transform: translateY(-2px);
+}
+
+/* Pre-styled ticket icon inside the group wrapper */
+.checkout-page .input-group-text {
+    background-color: #15151C;
+    color: #E50914;
+    border: 1px solid #2A2A35;
+}
+
+/* Crimson Red cinema button styles matching the main CTA flow */
+.btn-checkout {
+    background-color: #E50914; /* Cinema Red Accent */
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-checkout:hover {
+    background-color: #b8070f;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+}
+
+/* Helper configuration text rules */
+.text-warning {
+    color: #E50914 !important; /* Forces layout warnings to stay in key */
+}

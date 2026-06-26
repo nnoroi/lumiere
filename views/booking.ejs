@@ -131,3 +131,31 @@
     <script src="/js/seats.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const paymentBtn = document.querySelector('button[style*="background-color: #E50914"]');
+        if (paymentBtn) {
+            paymentBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Directly pull the raw string output from the template
+                const rawId = "<%= movie.id %>".trim();
+                
+                window.location.href = '/checkout-summary?movieId=' + rawId + '&time=20:00&seats=A1,A2&tickets=2';
+            });
+        }
+    });
+</script>
