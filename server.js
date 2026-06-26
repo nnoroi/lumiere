@@ -35,9 +35,9 @@ app.get('/api/showing/:id', (req, res) => {
   if (!showingLayout){
     return res.status(404).json({ error: "Showing session layout not found" });
   }
-  
   res.json(showingLayout);
 });
+
 
 app.listen(3000, () => {
   console.log('Express server running at http://localhost:3000/');

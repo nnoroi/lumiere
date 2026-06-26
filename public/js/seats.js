@@ -1,62 +1,32 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded! Looking for showtime pills...");
+document.addEventListener('DOMContentLoaded', () => { // waits browser to finish loading the html structure
     
     const timePills = document.querySelectorAll('.showtime-pill');
     const container = document.getElementById('seat-map-container');
     const checkoutBtn = document.getElementById('checkout-btn');
     
-    const showingIdInput = document.getElementById('showing-id-input');
+    const showingIdInput = document.getElementById('showing-id-input'); //html element object from DOM
     const selectedSeatsInput = document.getElementById('selected-seats-input');
-
-    console.log(`Found ${timePills.length} showtime pills on the page.`);
-    if (!container) {
-        console.error("CRITICAL ERROR: Could not find element with id='seat-map-container'!");
-    }
 
     let selectedSeats = [];
     const ticketPrice = 12.50;
 
     timePills.forEach((pill, index) => {
         pill.addEventListener('click', async (e) => {
-            console.log(`Pill #${index} clicked!`);
-            
-            // Toggle active classes
-            timePills.forEach(p => {
-                p.classList.remove('btn-light', 'text-dark');
-                p.classList.add('btn-outline-light');
-            });
-            pill.classList.remove('btn-outline-light');
-            pill.classList.add('btn-light', 'text-dark');
-            
-            selectedSeats = [];
+            selectedSeats = []; // if user switches between rooms, it clears shopping cart
             updateCheckoutUI();
 
-            const rawShowingId = pill.getAttribute('data-showing-id');
-            console.log("Raw showing ID grabbed from button attribute:", rawShowingId);
-
-            if (!rawShowingId) {
-                console.error("ERROR: Clicked button has an empty or missing data-showing-id attribute!");
-                container.innerHTML = `<p class="text-danger">Error: Showtime has no ID associated with it.</p>`;
-                return;
-            }
-
-            const showingId = rawShowingId.trim();
+            const rawShowingId = pill.getAttribute('data-showing-id'); //reads the attribute from ejs file
+            const showingId = rawShowingId.trim(); // clears the data-showing-id if there any spaces 
             showingIdInput.value = showingId;
 
             container.innerHTML = '<div class="text-white">Loading dynamic seat layouts...</div>';
 
             try {
-                const apiUrl = `/api/showing/${showingId}`;
-                console.log(`Fetching seat data from endpoint: ${apiUrl}`);
-                
-                const response = await fetch(apiUrl);
-                console.log("Server responded with status code:", response.status);
+                const apiUrl = `/api/showing/${showingId}`;                
+                const response = await fetch(apiUrl); //asks code to wait (pause) till load
                 
                 if (!response.ok) throw new Error(`Network error: ${response.status}`);
-                
-                const data = await response.json();
-                console.log("Successfully received seat data object from database:", data);
-                
+                const data = await response.json();  //parse raw text data into js object              
                 renderSeatMap(data, container);
             } catch(err) {
                 console.error("Error loading seat matrix:", err);
@@ -66,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function renderSeatMap(data, containerElement) {
-        containerElement.innerHTML = '';
+        containerElement.innerHTML = ''; //removes any previous text
 
         const screenDiv = document.createElement('div');
         screenDiv.className = `p-2 mb-5 rounded text-center text-uppercase fw-bold text-muted`;
@@ -76,13 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         screenDiv.style.letterSpacing = '2px';
         screenDiv.innerText = `${data.screenName} (${data.type} SCREEN)`;
         containerElement.appendChild(screenDiv);
-
-        if (!data.rows || data.rows.length === 0) {
-            containerElement.innerHTML += `<p class="text-warning">This layout session contains no rows.</p>`;
-            return;
-        }
-
-        data.rows.forEach(row => {
+        data.rows.forEach(row => { //looping through the rows array in json file and wrap each row with <div>
             const rowWrapper = document.createElement('div');
             rowWrapper.className = 'd-flex justify-content-center align-items-center mb-2 gap-2';
 
@@ -90,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rowLabel.className = 'text-muted me-3 fw-bold';
             rowLabel.style.width = '20px';
             rowLabel.innerText = row.name;
-            rowWrapper.appendChild(rowLabel);
+            rowWrapper.appendChild(rowLabel); //this block adds the letter to the far left like A, B, C
 
             row.seats.forEach(seat => {
                 const seatBtn = document.createElement('button');
@@ -98,34 +62,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 seatBtn.className = 'btn btn-sm m-1 p-2 rounded-2 transition-all';
                 seatBtn.style.width = '35px';
                 seatBtn.style.height = '35px';
-                seatBtn.style.fontSize = '0.75rem';
-                seatBtn.innerText = seat.number;
+                seatBtn.style.fontSize = '0.75rem'; 
+                seatBtn.innerText = seat.number; //this block creates buttons on each seats 
 
-                const seatIdentifier = `${row.name}-${seat.number}`;
+                const seatIdentifier = `${row.name}-${seat.number}`; //creates a unique Text ID by combining name and number A-1
 
                 if (!seat.available) {
-                    // SEAT IS OCCUPIED: Gray it out, cross it out, make it unclickable
-                    seatBtn.className += ' btn-secondary disabled opacity-25';
+                    seatBtn.className += ' btn-secondary disabled opacity-25'; //cheks if the seat is not available turns it gray; disabled
                 } else {
-                    // SEAT IS AVAILABLE: Make it clean and interactive
-                    seatBtn.className += ' btn-outline-secondary text-white border-secondary';
+                    seatBtn.className += ' btn-outline-secondary text-white border-secondary'; // if available, makes it clickable
                     
                     seatBtn.addEventListener('click', () => {
-                        // Check if seat is already clicked
                         if (selectedSeats.includes(seatIdentifier)) {
-                            // De-select it
-                            selectedSeats = selectedSeats.filter(s => s !== seatIdentifier);
+                            selectedSeats = selectedSeats.filter(s => s !== seatIdentifier); //compares if the array contains seat, if yes, it disselects it
                             seatBtn.classList.remove('btn-danger');
                             seatBtn.classList.add('btn-outline-secondary', 'text-white');
                         } else {
-                            // ─── LIMIT CHECK LIVE ───
-                            if (selectedSeats.length >= 6) {
+                            if (selectedSeats.length >= 6) { //limit up to 6
                                 alert("Maximum booking limit reached! You can only select up to 6 seats per transaction.");
-                                return; // Stop execution so the seat doesn't get added
+                                return; // stop execution so the seat doesn't get added
                             }
 
-                            // Select it
-                            selectedSeats.push(seatIdentifier);
+                            selectedSeats.push(seatIdentifier); //adds selected seat into array
                             seatBtn.classList.remove('btn-outline-secondary', 'text-white');
                             seatBtn.classList.add('btn-danger');
                         }
