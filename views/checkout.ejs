@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style1.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/checkout.css">
 </head>
-<body class="bg-dark text-white">
+<body class="checkout-page text-white">
 
     <div class="container my-5">
-        <div class="card bg-secondary text-white p-4 mx-auto shadow" style="max-width: 550px; border-radius: 12px; background-color: #2c2c35 !important;">
-            <h2 class="mb-4 text-warning fw-bold"><i class="fa-solid fa-credit-card me-2"></i>Checkout Summary</h2>
+        <div class="card checkout-card text-white p-4 mx-auto shadow">
+            <h2 class="mb-4 checkout-title fw-bold"><i class="fa-solid fa-credit-card me-2"></i>Checkout Summary</h2>
             
-            <div class="bg-dark p-3 rounded mb-4" style="background-color: #1a1a24 !important;">
-                <h5 class="text-warning fw-bold mb-2"><%= movie.title %></h5>
+            <div class="summary-box">
+                <h5 class="fw-bold mb-2 text-white"><%= movie.title %></h5>
                 <p class="mb-1 small text-white-50"><strong>Showtime:</strong> <%= time %></p>
                 <p class="mb-0 small text-white-50"><strong>Selected Seats:</strong> <%= seats %></p>
             </div>
@@ -28,54 +29,54 @@
                 <input type="hidden" name="tickets" value="<%= tickets %>">
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Name</label>
+                    <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" required placeholder="Enter your full name">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Email</label>
+                    <label class="form-label">Email</label>
                     <input type="email" class="form-control" name="email" required placeholder="name@example.com">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Tickets</label>
-                    <input type="text" class="form-control bg-dark text-white-50 border-0" value="<%= tickets %> Ticket(s)" readonly style="background-color: #1a1a24 !important;">
+                    <label class="form-label">Tickets</label>
+                    <input type="text" class="form-control text-white-50" value="<%= tickets %> Ticket(s)" readonly>
                 </div>
 
                 <hr class="border-secondary my-4">
 
-                <h5 class="text-warning fw-bold mb-3"><i class="fa-solid fa-wallet me-2"></i>Select Payment Method</h5>
+                <h5 class="fw-bold mb-3 text-white"><i class="fa-solid fa-wallet me-2"></i>Select Payment Method</h5>
                 
                 <div class="d-flex gap-3 mb-4">
-                    <div class="form-check p-3 rounded border border-secondary flex-fill text-center bg-dark option-box" style="cursor: pointer; background-color: #1a1a24 !important;">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="cardBox" style="cursor: pointer;">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cardPay" value="Credit/Debit Card" checked>
-                        <label class="form-check-label w-100 fw-bold" for="cardPay" style="cursor: pointer;">
-                            <i class="fa-solid fa-card-membership me-2 text-warning"></i>Card
+                        <label class="form-check-label w-100 fw-bold text-white" for="cardPay" style="cursor: pointer;">
+                            <i class="fa-solid fa-card-membership me-2 text-danger"></i>Card
                         </label>
                     </div>
-                    <div class="form-check p-3 rounded border border-secondary flex-fill text-center bg-dark option-box" style="cursor: pointer; background-color: #1a1a24 !important;">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="paypalBox" style="cursor: pointer;">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="paypalPay" value="PayPal">
-                        <label class="form-check-label w-100 fw-bold" for="paypalPay" style="cursor: pointer;">
+                        <label class="form-check-label w-100 fw-bold text-white" for="paypalPay" style="cursor: pointer;">
                             <i class="fa-brands fa-paypal me-2 text-info"></i>PayPal
                         </label>
                     </div>
                 </div>
 
-                <div id="paymentInputsContainer" class="p-3 rounded mb-4" style="background-color: #1a1a24; border: 1px dashed #444;">
+                <div id="paymentInputsContainer" class="p-3 rounded mb-4" style="background-color: #0F0F14; border: 1px dashed #2A2A35;">
                     
                     <div id="cardFields">
                         <div class="mb-3">
                             <label class="form-label small text-white-50">Card Number</label>
-                            <input type="text" class="form-control bg-secondary text-white border-0 card-mask" placeholder="1234 5678 1234 5678">
+                            <input type="text" class="form-control card-mask" placeholder="1234 5678 1234 5678">
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-label small text-white-50">Expiry</label>
-                                <input type="text" class="form-control bg-secondary text-white border-0" placeholder="MM/YY">
+                                <input type="text" class="form-control" placeholder="MM/YY">
                             </div>
                             <div class="col-6">
                                 <label class="form-label small text-white-50">CVV</label>
-                                <input type="password" class="form-control bg-secondary text-white border-0" placeholder="***" maxlength="3">
+                                <input type="password" class="form-control" placeholder="***" maxlength="3">
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-warning text-dark w-100 fw-bold py-2 fs-5">
+                <button type="submit" class="btn btn-checkout w-100 py-2 fs-5">
                     Confirm & Purchase
                 </button>
             </form>
@@ -101,21 +102,21 @@
             const paypalFields = document.getElementById('paypalFields');
             const optionBoxes = document.querySelectorAll('.option-box');
 
-            // Highlight selected payment card box style border
+            // Synchronizes visual selection card borders with the active teammates' palette schema
             function updateSelectionHighlight() {
                 optionBoxes.forEach(box => {
                     const radio = box.querySelector('input[type="radio"]');
                     if(radio.checked) {
-                        box.style.borderColor = '#ffc107';
-                        box.style.backgroundColor = '#252532';
+                        box.style.borderColor = '#E50914'; // Cinema Theme Crimson Accent 
+                        box.style.backgroundColor = '#1C1C24';
                     } else {
-                        box.style.borderColor = '#444';
-                        box.style.backgroundColor = '#1a1a24';
+                        box.style.borderColor = '#2A2A35'; // Flat Slate borders
+                        box.style.backgroundColor = '#15151C';
                     }
                 });
             }
 
-            // Click interceptor mapping to visual cards
+            // Maps whole card layouts into clickable selectors
             optionBoxes.forEach(box => {
                 box.addEventListener('click', function() {
                     this.querySelector('input[type="radio"]').checked = true;
@@ -137,7 +138,7 @@
             cardRadio.addEventListener('change', triggerViewToggle);
             paypalRadio.addEventListener('change', triggerViewToggle);
             
-            // Initialization run
+            // Execute layout alignment check at startup
             triggerViewToggle();
         });
     </script>

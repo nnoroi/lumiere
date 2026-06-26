@@ -38,7 +38,7 @@ app.listen(3000, () => {
 
 
 // ========================================================
-// DEMO FALLBACK: ISOLATED EXPLICIT CHECKOUT ROUTING LOGIC
+// Checkout & Confirm Booking
 // ========================================================
 app.get('/checkout-summary', (req, res) => {
     const movieId = req.query.movieId;
@@ -46,7 +46,6 @@ app.get('/checkout-summary', (req, res) => {
     const selectedSeats = req.query.seats || "A1, A2";
     const totalTickets = req.query.tickets || 2;
 
-    // FIX: Using the exact same matching logic as your teammate's route above
     const selectedMovie = moviesData.find(m => m.id === movieId || m.id === parseInt(movieId)) || moviesData[0];
 
     res.render('checkout', { 
@@ -57,7 +56,7 @@ app.get('/checkout-summary', (req, res) => {
     });
 });
 
-// Listen for when someone clicks "Confirm & Purchase"
+// Final Unified Booking Process Handler
 app.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
 
@@ -65,22 +64,14 @@ app.post('/confirm-booking', (req, res) => {
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const bookingReference = `CIN-${randomDigits}`;
 
-    // Send the receipt layout straight back to the screen
-    res.send(`
-        <div style="background: #212529; color: white; padding: 40px; font-family: sans-serif; text-align: center; max-width: 500px; margin: 50px auto; border-radius: 10px; border: 2px solid #ffc107;">
-            <h2 style="color: #ffc107; font-weight: bold;">🎉 Booking Confirmed</h2>
-            <hr style="border-color: #495057; margin: 20px 0;">
-            <p style="font-size: 1.1rem;"><strong>Confirmation Code:</strong> <span style="background: #ffc107; color: black; padding: 4px 10px; border-radius: 4px; font-weight: bold;">${bookingReference}</span></p>
-            <div style="text-align: left; background: #343a40; padding: 20px; border-radius: 6px; margin-top: 20px;">
-                <p><strong>Movie:</strong> ${movieTitle}</p>
-                <p><strong>Showtime:</strong> ${showTime}</p>
-                <p><strong>Seats:</strong> ${selectedSeats}</p>
-                <p><strong>Tickets:</strong> ${tickets}</p>
-                <hr style="border-color: #495057;">
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-            </div>
-            <a href="/" style="display: inline-block; margin-top: 25px; color: #ffc107; text-decoration: none; font-weight: bold; border: 1px solid #ffc107; padding: 8px 20px; border-radius: 4px;">Return Home</a>
-        </div>
-    `);
+    // Safely hand over data variables to your brand new template layout
+    res.render('confirm-booking', {
+        bookingReference,
+        movieTitle,
+        showTime,
+        selectedSeats,
+        tickets,
+        name,
+        email,
+    });
 });

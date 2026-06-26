@@ -124,26 +124,6 @@
 
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Target the specific red 'Proceed to Payment' button layout element
-        const paymentBtn = document.querySelector('button[style*="background-color: #E50914"]');
-        
-        if (paymentBtn) {
-            paymentBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Extract current movieId from url search parameters if present
-                const urlParams = new URLSearchParams(window.location.search);
-                const id = urlParams.get('movieId') || '1';
-
-                // Explicit bypass using custom parameter string to steer clear of collision
-                window.location.href = '/checkout-summary?movieId=' + id + '&time=20:00&seats=A1,A2&tickets=2';
-            });
-        }
-    });
-</script>
-
 
 
 
@@ -154,11 +134,10 @@
             paymentBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Read search variables safely using both case configurations
-                const urlParams = new URLSearchParams(window.location.search);
-                const id = urlParams.get('movieId') || urlParams.get('movieid') || urlParams.get('MovieId') || '1';
+                // Directly pull the raw string output from the template
+                const rawId = "<%= movie.id %>".trim();
                 
-                window.location.href = '/checkout-summary?movieId=' + id + '&time=20:00&seats=A1,A2&tickets=2';
+                window.location.href = '/checkout-summary?movieId=' + rawId + '&time=20:00&seats=A1,A2&tickets=2';
             });
         }
     });

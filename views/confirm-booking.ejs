@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - Lumiere</title>
+    <link rel="stylesheet" href="/css/style1.css">
+    <link rel="stylesheet" href="/css/confirm-booking.css">
+</head>
+<body class="bg-dark">
+
+    <div class="confirm-container">
+        <h2 class="confirm-title">🎉 Booking Confirmed</h2>
+        <hr class="confirm-divider">
+        
+        <p class="code-wrapper">
+            <strong class="code-label">Confirmation Code:</strong> 
+            <span class="code-badge"><%= bookingReference %></span>
+        </p>
+        
+        <div class="receipt-box">
+            <p class="receipt-line"><strong class="receipt-label">Movie:</strong> <%= movieTitle %></p>
+            <p class="receipt-line"><strong class="receipt-label">Showtime:</strong> <%= showTime %></p>
+            <p class="receipt-line"><strong class="receipt-label">Seats:</strong> <%= selectedSeats %></p>
+            <p class="receipt-line-last"><strong class="receipt-label">Tickets:</strong> <%= tickets %></p>
+            
+            <hr class="confirm-divider">
+            
+            <p class="receipt-line"><strong class="receipt-label">Name:</strong> <%= name %></p>
+            <p class="receipt-line mb-0"><strong class="receipt-label">Email:</strong> <%= email %></p>
+        </div>
+        
+        <a href="/" class="btn-home">Return Home</a>
+    </div>
+
+</body>
+</html>
