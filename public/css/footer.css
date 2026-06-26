@@ -10,7 +10,7 @@
     width:100% !important;
     padding: 100px 15%;
     background: black;
-    color: red;
+    color: #D13704;
     display: flex;
 }
 
@@ -49,7 +49,7 @@ form input{
 form button{
     background: transparent;
     border: 2px solid #fff;
-    color: red;
+    color: #D13704;
     border-radius: 30px;
     padding: 10px 30px; 
     font-size: 15px;

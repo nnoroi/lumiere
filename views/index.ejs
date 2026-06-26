@@ -38,16 +38,16 @@
         <div id="movie-container" class="row g-4">
             <% movies.forEach(movie => { %>
                 <div class="col-md-4">
-                    <div class="card bg-secondary text-white h-100">
+                    <div class="card h-100">
                         <img src="<%= movie.poster %>" class="card-img-top" alt="<%= movie.title %> poster">
                         <div class="card-body">
                             <h5 class="card-title fw-bold"><%= movie.title %></h5>
                             <p class="card-text mb-1"><strong>Genre:</strong> <%= movie.genre %></p>
                             <p class="card-text mb-1"><strong>Duration:</strong> <%= movie.duration %> min</p>
-                            <span class="badge bg-warning text-dark"><%= movie.rating %></span>
+                            <span class="movie-rating"><%= movie.rating %></span>
                         </div>
                         <div class="card-footer border-0 bg-transparent">
-                            <a href="/booking?movieId=<%= movie.id %>" class="btn btn-primary w-100">Book Tickets</a>
+                            <a href="/booking?movieId=<%= movie.id %>" class="btn btn-lumiere w-100">Book Tickets</a>
                         </div>
                     </div>
                 </div>
