@@ -38,28 +38,31 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1 class="mb-4">Now Showing</h1>
-        
-        <div id="movie-container" class="row g-4">
-            <% movies.forEach(movie => { %>
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img src="<%= movie.poster %>" class="card-img-top" alt="<%= movie.title %> poster">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold"><%= movie.title %></h5>
-                            <p class="card-text mb-1"><strong>Genre:</strong> <%= movie.genre %></p>
-                            <p class="card-text mb-1"><strong>Duration:</strong> <%= movie.duration %> min</p>
-                            <span class="movie-rating"><%= movie.rating %></span>
-                        </div>
-                        <div class="card-footer border-0 bg-transparent">
-                            <a href="/booking?movieId=<%= movie.id %>" class="btn btn-lumiere w-100">Book Tickets</a>
-                        </div>
-                    </div>
-                </div>
-            <% }); %>
-        </div>
-    </div>
+    <form action="" method="post">
+  <div class="imgcontainer">
+    <img src="" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a href="#">password?</a></span>
+  </div>
+</form>
+
+ 
 
     <div class="footer">
         <div class="col-1">

@@ -1,18 +1,18 @@
-/* :root {
-  --bg-main: #08080C;
-  --bg-section: #15151C;
-  --bg-card: #111827;
+:root {
+  --bg-main: #0B0F14 ;
+  --bg-section: #121820;
+  --bg-card: #171F2A;
 
-  --accent-red: #E50914;
-  --accent-red-hover: #FF1E2D;
+  --accent-orange-red: #D13704;
+  --accent-orange-red-hover: #F04A12;
 
   --text-main: #F5F5F5;
-  --text-muted: #A1A1AA;
+  --text-muted: #A7ADB8;
 
   --border-dark: #2A2A35;
 
   --seat-available: #2DD4BF;
-  --seat-selected: #E50914;
+  --seat-selected: #D13704 ;
   --seat-unavailable: #3F1D24;
 }
 
@@ -20,32 +20,53 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+
+
 .navbar {
-    background-color: #000000;  
-    border-bottom: 1px solid var(--border-dark);
+    background-color: var(--bg-section);  
+    border-bottom: 1px solid var(--accent-orange-red);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5%;
 }
 
 .navbar-brand {
-    color:red;
+    color: var(--accent-orange-red) !important;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.2s;
 }
-
 .navbar-brand:hover {
-  color: white;
+    color: white !important; 
 }
 
-.page-title {
-    color: var(--text-main);
-    font-size: 2rem;
-}
 
+/* ========================================================
+   YOUR SEARCH & BRAND BLOCK (100% UNCHANGED PROPERTIES)
+   ======================================================== */
 .search form {
     display:flex;
     align-items: center;
     border: 2px;
     border-radius: 20px;
     overflow: hidden;
+
+    /* --- THE FIX: Forces your rules into the pill shape & dark theme --- */
+    border-style: solid;
+    border-color: #2A2A35;
+    background-color: #15151C;
+    height: 38px;                 /* Enforces a slim, compact height */
+    transition: border-color 0.3s ease;
+}
+
+.search form:hover {
+    border-color: #D13704;            /* Smooth red border outline on hover */
 }
 
 .search input[type="text"] {
@@ -53,6 +74,11 @@ body {
     padding: 8px 15px;
     outline: none;
     width: 200px;
+
+    /* --- THE FIX: Blends text area inside your container smoothly --- */
+    background: transparent !important;
+    color: var(--text-main) !important;
+    height: 100%;
 }
 
 .search button {
@@ -62,12 +88,234 @@ body {
     cursor: pointer;
     color: #333;
     transition: color 0.2s;
+
+    /* --- THE FIX: Nicely centers the icon inside your layout --- */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #A1A1AA;               /* Subtle icon color baseline */
 }
 
 .search button:hover {
-    color: red;
+    color: #D13704;
 }
 
 .navbar-brand{
-    color: red;
-} */
+    color: #D13704;
+}
+/* ======================================================== */
+
+
+/* --- DARK ENVIRONMENT OVERRIDES FOR THE PILL CONTEXT --- */
+.search form {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px;
+    border-radius: 20px;
+    overflow: hidden;
+
+    /* Background and border configuration */
+    border-style: solid !important;
+    border-color: #2A2A35 !important;
+    background-color: #15151C !important; /* Your gray color */
+    height: 38px !important;               /* Force explicit height */
+}
+
+.search input[type="text"] {
+    border: none !important;
+    padding: 0 0 0 15px !important;        /* Kills vertical padding entirely */
+    margin: 0 !important;
+    outline: none !important;
+    width: 200px !important;
+    height: 100% !important;
+
+    /* Forces text alignment right into the dead center */
+    background: transparent !important;
+    color: var(--text-main) !important;
+    line-height: 38px !important;          /* Matches form height exactly to center text */
+    display: flex !important;
+    align-items: center !important;
+}
+
+
+/* Smooth border color transition when user hovers over search bar */
+.search form:hover {
+    border-color: #D13704;
+}
+
+
+/* Container wrapper to keep brand left and your search bar right */
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account{
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.account a{
+    display: flex;
+    align-items: center;
+    background-color: #15151C;
+    border: 1px solid #2A2A35;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.account a:hover {
+    background-color: #D13704;
+}
+
+
+/* controls the space between search bar and account button */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+/* Forces structural reset for input settings so text centers naturally */
+.search input[type="text"] {
+    background: transparent !important;
+    color: var(--text-main) !important;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.search button {
+    color: #A1A1AA;                    /* Muted icon color that turns red on hover */
+}
+
+/* Structure formatting adjustments for native HTML layout */
+.navbar-brand {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+/* --- MOVIE CONTAINERS & CARDS --- */
+.movie-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+    padding: 30px 5%;
+}
+
+.card {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main);
+    border: 1px solid var(--border-dark);
+
+}
+
+.card-body {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main);
+  border: 1px solid var(--border-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.card-body:hover {
+  border-color: var(--accent-red);
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  height: auto;
+  object-fit: cover;
+}
+
+.card-title {
+  color: var(--text-main);
+  font-weight: bold;
+}
+
+.card-text {
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  padding: 10px 20px;
+}
+
+.card-footer {
+  background-color: transparent;
+  border-top: 1px solid var(--border-dark);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.movie-rating {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--accent-orange-red);
+    color: var(--text-main);
+    border: 2px solid var(--accent-orange-red);
+
+    min-width: 42px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.btn-lumiere {
+    background-color: var(--accent-orange-red);
+    color: var(--text-main);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+.btn-lumiere:hover {
+    background-color: var(--accent-orange-red-hover);
+    color: var(--text-main);
+    transition: 0.5s ease;
+    transform: scale(1.05);
+}
+
+.movie {
+    background-color: grey;
+}
+
+.card-wrapper {
+    height: 100%;
+}
+
+.movie-card {
+    background-color: #1c1c1c;
+    color: var(--text-main);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.movie-card img {
+    width: 100%;
+    display: block;
+}
