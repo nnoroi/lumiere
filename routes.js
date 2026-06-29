@@ -33,8 +33,8 @@ router.get('/api/showing/:id', (req, res) => {
     res.json(showingLayout);
 });
 
-router.post('/checkout', (req, res) => {
-    const { movieId, selectedTime, selectedSeats } = req.body;
+router.get('/checkout', (req, res) => {
+    const { movieId, selectedTime, selectedSeats } = req.query;
     const timeId = parseInt(selectedTime);
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
@@ -80,4 +80,8 @@ router.post('/confirm-booking', (req, res) => {
     });
 });
 
-module.exports = router; 
+router.get(`/account`, (req, res) => {
+    res.render('account')
+})
+
+module.exports = router;
