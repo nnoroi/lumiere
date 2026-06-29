@@ -10,6 +10,7 @@
     
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/reg_form.css">
 </head>
 <body>
 
@@ -38,29 +39,42 @@
         </div>
     </nav>
 
-    <form action="" method="post">
-  <div class="imgcontainer">
-    <img src="" alt="Avatar" class="avatar">
-  </div>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2 id="form-title">Sign In</h2>
+            <p class="form-subtitle">Welcome back to Lumiere Cinema</p>
 
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+            <form action="/login" method="POST" id="authForm">
+                <div class="input-group" id="email-field" style="display: none;">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" name="email">
+                </div>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+                <div class="input-group">
+                    <label for="uname">Username</label>
+                    <input type="text" id="uname" placeholder="Enter Username" name="uname" required>
+                </div>
 
-    <button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
+                <div class="input-group">
+                    <label for="psw">Password</label>
+                    <input type="password" id="psw" placeholder="Enter Password" name="psw" required>
+                </div>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
+                <div class="form-actions-row">
+                    <label class="remember-me">
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                    <span class="forgot-psw">Forgot <a href="#">password?</a></span>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submit-btn">Login</button>
+            </form>
+
+            <div class="form-toggle-footer">
+                <br><p id="toggle-text">Don't have an account? <span id="switch-mode" onclick="toggleAuthMode()">Sign Up</span></p>
+            </div>
+        </div>
+    </div>
 
  
 
