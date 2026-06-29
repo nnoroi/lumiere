@@ -154,6 +154,38 @@ body {
     align-items: center;
 }
 
+.account{
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.account button{
+    display: flex;
+    align-items: center;
+    background-color: #15151C;
+    border: 1px solid #2A2A35;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.account button:hover {
+    background-color: #D13704;
+}
+
+
+/* controls the space between search bar and account button */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
 /* Forces structural reset for input settings so text centers naturally */
 .search input[type="text"] {
     background: transparent !important;

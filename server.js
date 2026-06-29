@@ -4,7 +4,7 @@ const app = express();
 const moviesData = require('./data/movies.json'); 
 const timesData = require('./data/times.json');
 const showingsData = require('./data/showings.json');
-
+const fs = require('fs')
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
@@ -64,10 +64,21 @@ app.post('/checkout', (req, res) => {
 
 app.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
-
-    // Demo Code Generation
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const bookingReference = `CIN-${randomDigits}`;
+
+    const bookingData = fs.readFileSync('./data/bookings.json');
+    const jsonData = JSON.parse(bookingData);
+    jsonData.push({
+      bookingReference: bookingReference,
+      name: name,
+      email: email,
+      movieTitle: movieTitle,
+      showTime: showTime,
+      selectedSeats: selectedSeats,
+      tickets: tickets,
+    });
+    fs.writeFileSync('./data/bookings.json', JSON.stringify(jsonData, null, 2));
 
     res.render('confirm-booking', {
         bookingReference,
@@ -77,8 +88,10 @@ app.post('/confirm-booking', (req, res) => {
         tickets,
         name,
         email,
+    
     });
 });
+
 
 
 app.listen(3000, () => {
