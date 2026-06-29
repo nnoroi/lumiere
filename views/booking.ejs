@@ -88,12 +88,9 @@
                         <p class="text-muted mb-0">Please select a showtime above to view available seating.</p>
                     </div>
 
-                    <button type="submit" id="checkout-btn" class="btn btn-lumiere btn-lg w-100" disabled>
-                        Select a session and seats to proceed
-                    </button>
                 </form>
                     <form id="checkout-form" action="/checkout" method="POST">
-                        <button type="submit" id="checkout-btn" class="btn btn-primary btn-lg w-100" style="background-color: #E50914; border: none;" disabled>
+                        <button type="submit" id="checkout-btn" class="btn btn-lumiere btn-lg w-100" disabled>
                             Select a session and seats to proceed
                         </button>
                         <input type="hidden" name="movieId" value="<%= movie.id %>">
