@@ -37,6 +37,55 @@
             </div>
         </div>
     </nav>
+   <div class="filter-wrapper container mb-4">
+    <form action="/" method="GET" class="row g-2 align-items-end bg-dark p-3 rounded">
+        
+        <div class="col-md-3">
+            <label for="genre" class="text-white small mb-1">Genre</label>
+            <select name="genre" id="genre" class="form-select bg-secondary text-white border-0">
+                <option value="">All Genres</option>
+                <option value="Sci-Fi" <%= selectedGenre === 'Sci-Fi' ? 'selected' : '' %>>Sci-Fi</option>
+                <option value="Animation" <%= selectedGenre === 'Animation' ? 'selected' : '' %>>Animation</option>
+                <option value="Drama" <%= selectedGenre === 'Drama' ? 'selected' : '' %>>Drama</option>
+                <option value="Comedy" <%= selectedGenre === 'Comedy' ? 'selected' : '' %>>Comedy</option>
+                <option value="Action" <%= selectedGenre === 'Action' ? 'selected' : '' %>>Action</option>
+                <option value="Thriller" <%= selectedGenre === 'Thriller' ? 'selected' : '' %>>Thriller</option>
+                <option value="Crime" <%= selectedGenre === 'Crime' ? 'selected' : '' %>>Crime</option>
+                <option value="Historical" <%= selectedGenre === 'Historical' ? 'selected' : '' %>>Historical</option>
+                <option value="Musical" <%= selectedGenre === 'Musical' ? 'selected' : '' %>>Musical</option>
+                <option value="Adventure" <%= selectedGenre === 'Adventure' ? 'selected' : '' %>>Adventure</option>
+                <option value="Romance" <%= selectedGenre === 'Romance' ? 'selected' : '' %>>Romance</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="rating" class="text-white small mb-1">Age Rating</label>
+            <select name="rating" id="rating" class="form-select bg-secondary text-white border-0">
+                <option value="">All Ratings</option>
+                <option value="U" <%= selectedRating === 'U' ? 'selected' : '' %>>U</option>
+                <option value="PG" <%= selectedRating === 'PG' ? 'selected' : '' %>>PG</option>
+                <option value="12A" <%= selectedRating === '12A' ? 'selected' : '' %>>12A</option>
+                <option value="15" <%= selectedRating === '15' ? 'selected' : '' %>>15</option>
+                <option value="18" <%= selectedRating === '18' ? 'selected' : '' %>>18</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="sortByTime" class="text-white small mb-1">Showtime Schedule</label>
+            <select name="sortByTime" id="sortByDate" class="form-select bg-secondary text-white border-0">
+                <option value="">Default View</option>
+                <option>Recent</option>
+                <option></option>
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-danger w-100" style="background-color: #D13704; border: none;">Apply Filters</button>
+            <a href="/" class="btn btn-outline-light w-100">Reset</a>
+        </div>
+    </form>
+</div>
+
 
     <div class="container">
         <h1 class="mb-4">Now Showing</h1>
@@ -84,7 +133,5 @@
             </div>
         </div>
     </div>
-
-    <script src="/app.js"></script>
 </body>
 </html>

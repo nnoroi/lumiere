@@ -12,7 +12,17 @@ const usersFile = path.join(__dirname, './data/users.json');
 let currentUser = null;
 
 router.get('/', (req, res) => {
-    res.render('index', { movies: moviesData }); 
+    const {genre, rating, sortByDate} = req.query;
+    let filteredMovies = moviesData;
+
+    if (genre) {
+        filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
+    }
+    if (rating){
+        filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
+    }
+
+    res.render('index', { movies:filteredMovies, selectedGenre: genre, selectedRating: rating})
 });
 
 router.get("/booking", (req, res) => {
@@ -138,4 +148,7 @@ router.post('/login', (req, res) => {
         res.redirect('/account?mode=login')
     };
 });
+
+
+
 module.exports = router;
