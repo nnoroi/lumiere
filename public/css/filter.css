@@ -1,0 +1,8 @@
+.btn-filter-submit {
+    background-color: #D13704 !important;
+    border: none !important;
+}
+
+.btn-filter-submit:hover {
+    background-color: #b02e03 !important;
+}

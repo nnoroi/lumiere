@@ -22,8 +22,27 @@ router.get('/', (req, res) => {
         filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
     }
 
-    res.render('index', { movies:filteredMovies, selectedGenre: genre, selectedRating: rating})
+    let userBookings = [];
+
+    if (currentUser) {
+        try {
+            const bookingData = fs.readFileSync('./data/bookings.json');
+            const allBookings = JSON.parse(bookingData);
+            userBookings = allBookings.filter(b => b.email === currentUser);
+        } catch (error) {
+            console.log("Error: bookings file is empty");
+        }
+    }
+
+    res.render('index', { 
+        movies:filteredMovies, 
+        selectedGenre: genre, 
+        selectedRating: rating, 
+        user: currentUser, 
+        bookings: userBookings
+    });
 });
+
 
 router.get("/booking", (req, res) => {
     const movieId = req.query.movieId;
@@ -97,7 +116,7 @@ router.post('/confirm-booking', (req, res) => {
     jsonData.push({
         bookingReference: bookingReference,
         name: name,
-        email: email,
+        email: currentUser,
         movieTitle: movieTitle,
         showTime: showTime,
         selectedSeats: selectedSeats,
@@ -117,6 +136,20 @@ router.post('/confirm-booking', (req, res) => {
 });
 
 router.get(`/account`, (req, res) => {
+    if (currentUser) {
+        let userBookings = [];
+        try {
+            const bookingData = fs.readFileSync('./data/bookings.json');
+            const allBookings = JSON.parse(bookingData);
+            userBookings = allBookings.filter(b => b.email === currentUser);
+        } catch (error){
+            console.log("Error");
+        }
+        return res.render('account_info', {
+            email: currentUser,
+            bookings: userBookings
+        });
+    }
     let currentMode;
     if (req.query.mode === "signup") {
         currentMode = "signup";
@@ -138,7 +171,7 @@ router.post('/register', (req, res) => {
     });
     fs.writeFileSync(usersFile, JSON.stringify(registeredUsers, null, 2));
 
-    currentUser = username;
+    currentUser = email;
     res.redirect('/');
 
 
@@ -154,13 +187,16 @@ router.post('/login', (req, res) => {
     const foundUser = registeredUser.find(u => u.username === username && u.password === password);
 
     if (foundUser) {
-        currentUser = foundUser.username;
+        currentUser = foundUser.email;
         res.redirect('/');
     } else {
         res.redirect('/account?mode=login')
     };
 });
 
-
+router.get('/logout', (req, res) => {
+    currentUser = null;
+    res.redirect('/');
+});
 
 module.exports = router;
