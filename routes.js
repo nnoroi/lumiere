@@ -23,15 +23,25 @@ router.get("/booking", (req, res) => {
     res.render('booking', { movie: selectedMovie, showtimes: movieTimes });
 });
 
-router.get('/api/showing/:id', (req, res) => {
-    const showingId = parseInt(req.params.id);
-    const showingLayout = showingsData.find(s => s.id === showingId);
-    
-    if (!showingLayout){
-        return res.status(404).json({ error: "Showing session layout not found" });
+
+router.get('/booking', (req, res) => {
+    const movieId = parseInt(req.query.movieId);
+    const showingId = parseInt(req.query.showingId);
+
+    const selectedMovie = moviesData.find(m => m.id === movieId);
+    const selectedLayout = showingsData.find(s => s.id === showingId);
+
+    if (!selectedMovie || !selectedLayout) {
+        return res.redirect('/');
     }
-    res.json(showingLayout);
+
+    res.render('booking', {
+        movie: selectedMovie,
+        layout: selectedLayout 
+    });
 });
+
+
 
 router.get('/checkout', (req, res) => {
     const { movieId, selectedTime, selectedSeats } = req.query;
@@ -81,7 +91,13 @@ router.post('/confirm-booking', (req, res) => {
 });
 
 router.get(`/account`, (req, res) => {
-    res.render('account')
-})
+    let currentMode;
+    if (req.query.mode === "signup") {
+        currentMode = "signup";
+    } else {
+        currentMode = "login";
+    }
+    res.render('account', {mode: currentMode});
+});
 
 module.exports = router;
