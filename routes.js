@@ -2,10 +2,14 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const path = require('path');
 
 const moviesData = require('./data/movies.json'); 
 const timesData = require('./data/times.json');
 const showingsData = require('./data/showings.json');
+const usersFile = path.join(__dirname, './data/users.json');
+
+let currentUser = null;
 
 router.get('/', (req, res) => {
     res.render('index', { movies: moviesData }); 
@@ -100,4 +104,38 @@ router.get(`/account`, (req, res) => {
     res.render('account', {mode: currentMode});
 });
 
+router.post('/register', (req, res) => {
+    const { username, password, email } = req.body;
+    const userData = fs.readFileSync(usersFile);
+    const registeredUsers = JSON.parse(userData);
+
+    registeredUsers.push({
+        email: email,
+        username: username,
+        password: password
+    });
+    fs.writeFileSync(usersFile, JSON.stringify(registeredUsers, null, 2));
+
+    currentUser = username;
+    res.redirect('/');
+
+
+
+});
+
+router.post('/login', (req, res) => {
+    const {username, password} = req.body;
+
+    const userData = fs.readFileSync(usersFile);
+    const registeredUser = JSON.parse(userData);
+
+    const foundUser = registeredUser.find(u => u.username === username && u.password === password);
+
+    if (foundUser) {
+        currentUser = foundUser.username;
+        res.redirect('/');
+    } else {
+        res.redirect('/account?mode=login')
+    };
+});
 module.exports = router;
