@@ -30,8 +30,12 @@
             <p class="receipt-line mb-0"><strong class="receipt-label">Email:</strong> <%= email %></p>
         </div>
         
+        <button class="download-btn" onclick="generatePDF()" style="margin-bottom: 15px; display: block; width: 100%;">Download Ticket</button>
+        
         <a href="/" class="btn-home">Return Home</a>
     </div>
 
 </body>
 </html>
+
+<%- include('_booking-download') %>

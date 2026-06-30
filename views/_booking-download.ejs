@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/booking-download.css">
+
+<div id="hidden-pdf-template" style="display: none;">
+    <div class="pdf-ticket-card">
+        <div class="pdf-header">
+            <h2>LUMIERE CINEMA</h2>
+            <span class="pdf-badge">OFFICIAL TICKET</span>
+        </div>
+        <hr class="pdf-divider">
+        <div class="pdf-body">
+            <p><strong>Movie:</strong> <%= movieTitle %></p>
+            <p><strong>Seats:</strong> <%= selectedSeats %></p>
+            <p><strong>Date & Time:</strong> <%= showTime %></p>
+            <p><strong>Booking ID:</strong> <span class="pdf-id">#<%= bookingReference %></span></p>
+            <p><strong>Tickets:</strong> <%= tickets %> seat(s)</p>
+            <p><strong>Holder:</strong> <%= name %></p>
+        </div>
+        <div class="pdf-footer">
+            <p>Please present this PDF at the entrance. Enjoy your movie!</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function generatePDF() {
+    const element = document.getElementById('hidden-pdf-template');
+    element.style.display = 'block';
+    
+    const options = {
+        margin:       15,
+        filename:     'Lumiere-Cinema-Ticket.pdf',
+        image:        { type: 'jpeg', quality: 1.0 },
+        html2canvas:  { scale: 3, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a5', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(options).from(element).save().then(() => {
+        element.style.display = 'none';
+    });
+}
+</script>
