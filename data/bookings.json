@@ -61,5 +61,14 @@
     "showTime": "21:00",
     "selectedSeats": "D2",
     "tickets": "1"
+  },
+  {
+    "bookingReference": "CIN-8262",
+    "name": "Dima",
+    "email": "barbotkodim@gmail.com",
+    "movieTitle": "Titanic",
+    "showTime": "21:00",
+    "selectedSeats": "C2,C4,D2,D3",
+    "tickets": "4"
   }
 ]

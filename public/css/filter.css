@@ -1,8 +1,48 @@
-.btn-filter-submit {
-    background-color: #D13704 !important;
-    border: none !important;
+.filter-wrapper form {
+  background-color: var(--bg-section) !important;
+  border: 1px solid var(--border-dark);
 }
 
-.btn-filter-submit:hover {
-    background-color: #b02e03 !important;
+.filter-wrapper label {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.filter-wrapper .form-select {
+  background-color: var(--bg-main) !important;
+  border: 1px solid var(--border-dark) !important;
+  height: 42px;
+  font-size: 0.95rem;
+}
+
+.filter-wrapper .form-select:focus {
+  border-color: var(--accent-orange-red) !important;
+  box-shadow: none;
+}
+
+.filter-wrapper .btn-filter-submit {
+  background-color: var(--accent-orange-red) !important;
+  border: none !important;
+  height: 42px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.filter-wrapper .btn-filter-submit:hover {
+  background-color: var(--accent-orange-red-hover) !important;
+}
+
+.filter-wrapper .btn-outline-light {
+  border: 1px solid var(--border-dark) !important;
+  height: 42px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.filter-wrapper .btn-outline-light:hover {
+  background-color: #FFFFFF !important;
+  color: var(--bg-main) !important;
 }
