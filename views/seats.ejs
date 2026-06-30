@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Seats - <%= movie.title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="seats-page text-white">
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-9 col-md-10 text-center">
+
+        <a href="/booking?movieId=<%= movie.id %>" class="seat-back-link">
+          <i class="fa fa-arrow-left"></i> Back to showtimes
+        </a>
+
+        <h1 class="h2 mb-1"><%= movie.title %></h1>
+        <p class="text-muted mb-4">
+          <i class="fa fa-calendar"></i> <%= showtime.date %> &nbsp;|&nbsp;
+          <i class="fa fa-clock"></i> <%= showtime.time %>
+        </p>
+
+        <div class="seat-screen"></div>
+        <div class="seat-screen-label">Screen</div>
+
+        <div class="seat-legend">
+          <span class="seat-legend-swatch"><span class="seat-legend-dot is-available"></span> Available</span>
+          <span class="seat-legend-swatch"><span class="seat-legend-dot is-selected"></span> Selected</span>
+          <span class="seat-legend-swatch"><span class="seat-legend-dot is-occupied"></span> Taken</span>
+        </div>
+
+        <form action="/checkout" method="GET">
+          <input type="hidden" name="movieId" value="<%= movie.id %>">
+          <input type="hidden" name="showingId" value="<%= showtime.showingId %>">
+
+          <%
+            // Flat seats ("A1", "A2", "B1"...) grouped back into rows by letter
+            const rows = {};
+            seats.forEach(s => {
+              const m = s.name.match(/^([A-Za-z]+)(\d+)$/);
+              const letter = m ? m[1] : s.name;
+              const num = m ? m[2] : '';
+              (rows[letter] = rows[letter] || []).push({ ...s, num });
+            });
+          %>
+          <% Object.keys(rows).sort().forEach(letter => { %>
+            <%
+              const rowSeats = rows[letter];
+              const half = Math.ceil(rowSeats.length / 2);
+              const left = rowSeats.slice(0, half);
+              const right = rowSeats.slice(half);
+            %>
+            <div class="seat-row">
+              <span class="seat-row-letter"><%= letter %></span>
+              <div class="seat-row-half is-left">
+                <% left.forEach(seat => { %>
+                  <input type="checkbox" name="selectedSeats" value="<%= seat.id %>" id="seat-<%= seat.id %>"
+                    class="seat-checkbox" <%= seat.isOccupied ? 'disabled' : '' %>>
+                  <label for="seat-<%= seat.id %>" class="seat-label"
+                    aria-label="Seat <%= seat.name %><%= seat.isOccupied ? ', unavailable' : ', available' %>">
+                    <%= seat.num %>
+                  </label>
+                <% }); %>
+              </div>
+              <span></span>
+              <div class="seat-row-half">
+                <% right.forEach(seat => { %>
+                  <input type="checkbox" name="selectedSeats" value="<%= seat.id %>" id="seat-<%= seat.id %>"
+                    class="seat-checkbox" <%= seat.isOccupied ? 'disabled' : '' %>>
+                  <label for="seat-<%= seat.id %>" class="seat-label"
+                    aria-label="Seat <%= seat.name %><%= seat.isOccupied ? ', unavailable' : ', available' %>">
+                    <%= seat.num %>
+                  </label>
+                <% }); %>
+              </div>
+              <span class="seat-row-letter"><%= letter %></span>
+            </div>
+          <% }); %>
+
+          <div class="seat-bar">
+            <div class="seat-bar-info">
+              <span id="seat-count" class="seat-bar-count">0 / 6 seats selected</span>
+              <span id="seat-chips" class="seat-bar-chips"></span>
+            </div>
+            <span id="seat-warning" class="seat-bar-warning"></span>
+            <button type="submit" id="submit-btn" class="btn btn-lumiere btn-lg" disabled>Select seats to continue</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const MAX = 6;
+      const boxes = document.querySelectorAll('.seat-checkbox:not(:disabled)');
+      const submitBtn = document.getElementById('submit-btn');
+      const countLabel = document.getElementById('seat-count');
+      const chipsLabel = document.getElementById('seat-chips');
+      const warningLabel = document.getElementById('seat-warning');
+      let warningTimeout;
+
+      function showWarning(msg) {
+        warningLabel.textContent = msg;
+        warningLabel.classList.add('is-visible');
+        clearTimeout(warningTimeout);
+        warningTimeout = setTimeout(() => warningLabel.classList.remove('is-visible'), 2200);
+      }
+
+      function update() {
+        const selected = Array.from(document.querySelectorAll('.seat-checkbox:checked'));
+        countLabel.textContent = `${selected.length} / ${MAX} seats selected`;
+        chipsLabel.textContent = selected.map(b => b.value).sort().join(', ');
+        submitBtn.disabled = selected.length === 0;
+        submitBtn.textContent = selected.length
+          ? `Proceed to Checkout (${selected.length})`
+          : 'Select seats to continue';
+      }
+
+      boxes.forEach(box => box.addEventListener('change', e => {
+        if (e.target.checked && document.querySelectorAll('.seat-checkbox:checked').length > MAX) {
+          e.target.checked = false;
+          showWarning(`You can only select up to ${MAX} seats per booking.`);
+        }
+        update();
+      }));
+    });
+  </script>
+</body>
+</html>

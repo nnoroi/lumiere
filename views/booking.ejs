@@ -80,7 +80,10 @@
                                 const dayNum = dateObj.toLocaleDateString('en-US', { day: 'numeric' });
                                 const calculatedRoomId = show.showingId;
                             %>
-                            <button type="button" class="btn btn-outline-light showtime-pill" data-showing-id="<%= calculatedRoomId %>">
+                            <button type="button" 
+                                class="btn btn-outline-light showtime-pill" 
+                                data-showing-id="<%= calculatedRoomId %>"
+                                onclick="window.location.href='/booking/seats?movieId=<%= movie.id %>&showingId=<%= calculatedRoomId %>'">
                                 <span class="d-block small text-muted"><%= dayName %> <%= dayNum %></span>
                                 <strong><%= show.time %></strong>
                             </button>
@@ -88,22 +91,6 @@
                     <% } else { %>
                         <p class="text-danger">No active showtimes found for this film today.</p>
                     <% } %>
-                    </div>
-                    <h3 class="h4 text-white mb-3">Select Seats</h3>
-                    <div id="seat-map-container" class="p-5 text-center rounded mb-4" style="background-color: #15151C; border: 1px dashed #2A2A35;">
-                        <p class="text-muted mb-0">Please select a showtime above to view available seating.</p>
-                    </div>
-
-                </form>
-                    <form id="checkout-form" action="/checkout" method="GET">
-                        <button type="submit" id="checkout-btn" class="btn btn-lumiere btn-lg w-100" disabled>
-                            Select a session and seats to proceed
-                        </button>
-                        <input type="hidden" name="movieId" value="<%= movie.id %>">
-                        <input type="hidden" id="showing-id-input" name="selectedTime" required>
-                        <input type="hidden" id="selected-seats-input" name="selectedSeats" required>
-                        <input type="hidden" id="selected-seats-input" name="selectedTickets" required>
-                    </form>
             </div>
         </div>
     </div>
@@ -134,7 +121,6 @@
         </div>
     </div>
 
-    <script src="/js/seats.js"></script>
 </body>
 </html>
 

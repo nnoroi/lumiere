@@ -23,39 +23,51 @@ router.get("/booking", (req, res) => {
     res.render('booking', { movie: selectedMovie, showtimes: movieTimes });
 });
 
-
-router.get('/booking', (req, res) => {
+router.get('/booking/seats', (req, res) => {
     const movieId = parseInt(req.query.movieId);
     const showingId = parseInt(req.query.showingId);
 
     const selectedMovie = moviesData.find(m => m.id === movieId);
+    const selectedShowtime = timesData.find(t => t.showingId === showingId);
     const selectedLayout = showingsData.find(s => s.id === showingId);
 
-    if (!selectedMovie || !selectedLayout) {
+    if (!selectedMovie || !selectedShowtime || !selectedLayout) {
         return res.redirect('/');
     }
 
-    res.render('booking', {
+    // showings.json nests seats inside rows (A, B, C...), but seats.ejs
+    // expects a flat { id, name, isOccupied } array — flatten here so
+    // seats.ejs doesn't need any changes
+    const flatSeats = selectedLayout.rows.flatMap(row =>
+        row.seats.map(seat => ({
+            id: `${row.name}${seat.number}`,
+            name: `${row.name}${seat.number}`,
+            isOccupied: !seat.available
+        }))
+    );
+
+    res.render('seats', {
         movie: selectedMovie,
-        layout: selectedLayout 
+        showtime: selectedShowtime,
+        seats: flatSeats
     });
 });
 
-
-
 router.get('/checkout', (req, res) => {
-    const { movieId, selectedTime, selectedSeats } = req.query;
-    const timeId = parseInt(selectedTime);
+    const { movieId, showingId, selectedSeats } = req.query;
+    const timeId = parseInt(showingId);
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
-    
-    let totalSeatsArray = selectedSeats.split(",");
+
+    // selectedSeats is a string if 1 checkbox was checked,
+    // or an array if multiple share the same name
+    const totalSeatsArray = Array.isArray(selectedSeats) ? selectedSeats : [selectedSeats];
     const totalTickets = totalSeatsArray.length;
 
     res.render('checkout', { 
         movie: selectedMovie,
         time: matchingTimeObj.time,
-        seats: selectedSeats,
+        seats: totalSeatsArray,
         tickets: totalTickets
     });
 });
