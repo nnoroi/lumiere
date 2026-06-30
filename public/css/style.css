@@ -159,7 +159,7 @@ body {
     display: inline-block;
 }
 
-.account a{
+.account a {
     display: flex;
     align-items: center;
     background-color: #15151C;

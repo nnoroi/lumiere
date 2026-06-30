@@ -1,0 +1,124 @@
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: transparent;
+}
+
+.form-container {
+    background-color: #15151C;
+    border: 1px solid #2A2A35;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.form-container h2 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.form-subtitle {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group input {
+    background-color: #1A1A24;
+    border: 1px solid #2A2A35;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #D13704;
+    background-color: #1E1E2A;
+    box-shadow: 0 0 0 3px rgba(209, 55, 4, 0.15);
+}
+
+
+.form-actions-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-bottom: 24px !important;
+    font-size: 14px;
+}
+
+.remember-me {
+    display: flex !important;
+    align-items: center !important;
+    color: #aaa;
+    cursor: pointer;
+    margin: 0 !important; 
+}
+
+.remember-me input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    margin-right: 8px !important;
+    accent-color: #D13704;
+    display: inline-block !important;
+    appearance: auto !important; 
+}
+
+
+.forgot-psw {
+    margin: 0 !important;
+    white-space: nowrap; 
+}
+
+.forgot-psw a {
+    color: #D13704;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-psw a:hover {
+    text-decoration: underline;
+}
+
+.btn-submit {
+    display: block !important;
+    width: 100% !important;     
+    clear: both !important;     
+    margin-top: 20px !important;
+    text-align: center !important;
+    border-color: #2A2A35 !important;
+}
+
+.btn-submit:hover{
+    border-color: #D13704 !important;
+}
