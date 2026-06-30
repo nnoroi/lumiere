@@ -1,88 +1,135 @@
-:root {
-  --bg-main: #0B0F14 ;
-  --bg-section: #121820;
-  --bg-card: #171F2A;
-
-  --accent-orange-red: #D13704;
-  --accent-orange-red-hover: #F04A12;
-
-  --text-main: #F5F5F5;
-  --text-muted: #A7ADB8;
-
-  --border-dark: #2A2A35;
-
-  --seat-available: #2DD4BF;
-  --seat-selected: #D13704 ;
-  --seat-unavailable: #3F1D24;
+.footer {
+  margin-top: 120px;
+  width: 100%;
+  padding: 80px 10%;
+  background-color: var(--bg-section);
+  color: var(--text-main);
+  border-top: 1px solid var(--border-dark);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  align-items: start;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
+.footer .col-1,
+.footer .col-2,
+.footer .col-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
-.footer{
-    margin-top: 150px !important;
-    width:100% !important;
-    padding: 100px 15%;
-    background: var(--bg-section);
-    color: var(--text-main);
-    display: flex;
+.footer h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-main);
+  position: relative;
 }
 
-.footer div{
-    text-align: center;
+.footer h3::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 2px;
+  background-color: var(--accent-orange-red);
 }
 
-.col-2{
-    flex-grow: 2;
+.footer .col-1 a {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.footer div h3{
-    font-weight: 300;
-    margin-bottom: 30px;
-    letter-spacing: 1px;
+.footer .col-1 a:hover {
+  color: var(--accent-orange-red);
+  transform: translateY(-1px);
 }
 
-.col-1 a{
-    display: block;
-    text-decoration: none;
-    color: var(--text-main);
-    margin-bottom: 10px;
+.footer .col-3 p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-form input{
-    border: 2px solid var(--accent-orange-red);
-    width: 400px;
-    height: 45px;
-    border-radius: 4px;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    outline: none;
-    border: none;
+.footer form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
 }
 
-form button{
-    background: transparent;
-    border: 2px solid var(--accent-orange-red);
-    color: var(--text-main);
-    border-radius: 30px;
-    padding: 10px 30px; 
-    font-size: 15px;
-    cursor: pointer;
+.footer form input {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-dark);
+  color: var(--text-main);
+  width: 100%;
+  height: 42px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 16px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.social-icons{
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
+.footer form input:focus {
+  border-color: var(--accent-orange-red);
 }
-.social-icons i{
-    display: inline-block !important;
-    font-size: 22px !important;
-    margin: 10px;
-    cursor: pointer;
+
+.footer form button {
+  background: transparent;
+  border: 2px solid var(--accent-orange-red);
+  color: var(--text-main);
+  border-radius: 30px;
+  padding: 8px 28px; 
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer form button:hover {
+  background-color: var(--accent-orange-red);
+  transform: translateY(-2px);
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 5px;
+}
+
+.social-icons i {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icons i:hover {
+  color: var(--accent-orange-red);
+  transform: scale(1.15);
+}
+
+@media (max-width: 992px) {
+  .footer {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 60px 5%;
+  }
 }
