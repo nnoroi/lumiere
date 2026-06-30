@@ -101,3 +101,25 @@
     background-color: var(--accent-orange-red-hover);
     transform: translateY(-2px);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media print {
+    /* Hide the download button and navigation bars when printing/saving */
+    .download-btn, nav, footer {
+        display: none !important;
+    }
+}
