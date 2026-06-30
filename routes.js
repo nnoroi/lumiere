@@ -35,9 +35,6 @@ router.get('/booking/seats', (req, res) => {
         return res.redirect('/');
     }
 
-    // showings.json nests seats inside rows (A, B, C...), but seats.ejs
-    // expects a flat { id, name, isOccupied } array — flatten here so
-    // seats.ejs doesn't need any changes
     const flatSeats = selectedLayout.rows.flatMap(row =>
         row.seats.map(seat => ({
             id: `${row.name}${seat.number}`,
@@ -49,7 +46,9 @@ router.get('/booking/seats', (req, res) => {
     res.render('seats', {
         movie: selectedMovie,
         showtime: selectedShowtime,
-        seats: flatSeats
+        seats: flatSeats,
+        screenName: selectedLayout.screenName,
+        screenType: selectedLayout.type
     });
 });
 
