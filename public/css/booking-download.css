@@ -1,0 +1,19 @@
+/* public/css/booking-download.css */
+#hidden-pdf-template { 
+    display: none; 
+}
+.pdf-ticket-card { 
+    width: 100%; 
+    max-width: 450px; 
+    margin: 0 auto; 
+    padding: 30px; 
+    border: 2px dashed #ccc; 
+    background-color: #fff; 
+    border-radius: 12px; 
+}
+.pdf-header h2 { color: #111; margin: 0; font-size: 26px; letter-spacing: 2px; }
+.pdf-badge { font-size: 11px; background: #000; color: #fff; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+.pdf-divider { border: 0; border-top: 1px dashed #aaa; margin: 20px 0; }
+.pdf-body p { font-size: 15px; line-height: 1.8; margin: 8px 0; color: #333; }
+.pdf-footer { margin-top: 30px; text-align: center; font-size: 12px; color: #777; }
+

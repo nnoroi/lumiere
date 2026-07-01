@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js --ignore data/"
   },
   
   "dependencies": {

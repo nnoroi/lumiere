@@ -2,14 +2,47 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const path = require('path');
 
 const moviesData = require('./data/movies.json'); 
 const timesData = require('./data/times.json');
 const showingsData = require('./data/showings.json');
+const usersFile = path.join(__dirname, './data/users.json');
+
+let currentUser = null;
 
 router.get('/', (req, res) => {
-    res.render('index', { movies: moviesData }); 
+    const {genre, rating, sortByDate} = req.query;
+    let filteredMovies = moviesData;
+
+    if (genre) {
+        filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
+    }
+    if (rating){
+        filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
+    }
+
+    let userBookings = [];
+
+    if (currentUser) {
+        try {
+            const bookingData = fs.readFileSync('./data/bookings.json');
+            const allBookings = JSON.parse(bookingData);
+            userBookings = allBookings.filter(b => b.email === currentUser);
+        } catch (error) {
+            console.log("Error: bookings file is empty");
+        }
+    }
+
+    res.render('index', { 
+        movies:filteredMovies, 
+        selectedGenre: genre, 
+        selectedRating: rating, 
+        user: currentUser, 
+        bookings: userBookings
+    });
 });
+
 
 router.get("/booking", (req, res) => {
     const movieId = req.query.movieId;
@@ -82,7 +115,7 @@ router.post('/confirm-booking', (req, res) => {
     jsonData.push({
         bookingReference: bookingReference,
         name: name,
-        email: email,
+        email: currentUser,
         movieTitle: movieTitle,
         showTime: showTime,
         selectedSeats: selectedSeats,
@@ -102,6 +135,20 @@ router.post('/confirm-booking', (req, res) => {
 });
 
 router.get(`/account`, (req, res) => {
+    if (currentUser) {
+        let userBookings = [];
+        try {
+            const bookingData = fs.readFileSync('./data/bookings.json');
+            const allBookings = JSON.parse(bookingData);
+            userBookings = allBookings.filter(b => b.email === currentUser);
+        } catch (error){
+            console.log("Error");
+        }
+        return res.render('account_info', {
+            email: currentUser,
+            bookings: userBookings
+        });
+    }
     let currentMode;
     if (req.query.mode === "signup") {
         currentMode = "signup";
@@ -109,6 +156,46 @@ router.get(`/account`, (req, res) => {
         currentMode = "login";
     }
     res.render('account', {mode: currentMode});
+});
+
+router.post('/register', (req, res) => {
+    const { username, password, email } = req.body;
+    const userData = fs.readFileSync(usersFile);
+    const registeredUsers = JSON.parse(userData);
+
+    registeredUsers.push({
+        email: email,
+        username: username,
+        password: password
+    });
+    fs.writeFileSync(usersFile, JSON.stringify(registeredUsers, null, 2));
+
+    currentUser = email;
+    res.redirect('/');
+
+
+
+});
+
+router.post('/login', (req, res) => {
+    const {username, password} = req.body;
+
+    const userData = fs.readFileSync(usersFile);
+    const registeredUser = JSON.parse(userData);
+
+    const foundUser = registeredUser.find(u => u.username === username && u.password === password);
+
+    if (foundUser) {
+        currentUser = foundUser.email;
+        res.redirect('/');
+    } else {
+        res.redirect('/account?mode=login')
+    };
+});
+
+router.get('/logout', (req, res) => {
+    currentUser = null;
+    res.redirect('/');
 });
 
 module.exports = router;
