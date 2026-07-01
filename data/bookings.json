@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "bookingReference": "CIN-5666",
+    "name": "Dima",
+    "email": "qwerty@gmail.com",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "17:00",
+    "selectedSeats": [
+      "C1",
+      "C2"
+    ],
+    "tickets": "2"
+  },
+  {
+    "bookingReference": "CIN-3071",
+    "name": "Dima",
+    "email": "qwerty@gmail.com",
+    "movieTitle": "Oppenheimer",
+    "showTime": "18:00",
+    "selectedSeats": [
+      "A5",
+      "A6",
+      "B4",
+      "B5",
+      "B6"
+    ],
+    "tickets": "5"
+  }
+]
