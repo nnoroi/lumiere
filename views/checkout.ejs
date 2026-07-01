@@ -16,17 +16,35 @@
         <div class="card checkout-card text-white p-4 mx-auto shadow">
             <h2 class="mb-4 checkout-title fw-bold"><i class="fa-solid fa-credit-card me-2"></i>Checkout Summary</h2>
             
-            <div class="summary-box">
+            <div class="summary-box mb-4">
                 <h5 class="fw-bold mb-2 text-white"><%= movie.title %></h5>
                 <p class="mb-1 small text-white-50"><strong>Showtime:</strong> <%= time %></p>
                 <p class="mb-0 small text-white-50"><strong>Selected Seats:</strong> <%= seats %></p>
             </div>
+
+            <!-- START OF NEW PRICE BREAKDOWN BOX -->
+            <div class="p-3 rounded mb-4" style="background-color: #15151C; border: 1px solid #2A2A35;">
+                <h6 class="fw-bold text-white mb-3"><i class="fa-solid fa-receipt me-2 text-danger"></i>Price Breakdown</h6>
+                <div class="d-flex justify-content-between small text-white-50 mb-2">
+                    <span>Ticket Price (<%= tickets %> x)</span>
+                    <span><%= currency %> <%= unitPrice %></span>
+                </div>
+                <hr class="border-secondary my-2">
+                <div class="d-flex justify-content-between fw-bold text-white fs-5">
+                    <span>Total Amount:</span>
+                    <span style="color: #E50914;"><%= currency %> <%= totalPrice %></span>
+                </div>
+            </div>
+            <!-- END OF NEW PRICE BREAKDOWN BOX -->
 
             <form action="/confirm-booking" method="POST">
                 <input type="hidden" name="movieTitle" value="<%= movie.title %>">
                 <input type="hidden" name="showTime" value="<%= time %>">
                 <input type="hidden" name="selectedSeats" value="<%= seats %>">
                 <input type="hidden" name="tickets" value="<%= tickets %>">
+                <!-- Sending prices forward to your final confirmation route safely -->
+                <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+                <input type="hidden" name="currency" value="<%= currency %>">
 
                 <div class="mb-3">
                     <label class="form-label">Name</label>
@@ -88,7 +106,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-checkout w-100 py-2 fs-5">
-                    Confirm & Purchase
+                    Confirm & Purchase (<%= currency %> <%= totalPrice %>)
                 </button>
             </form>
         </div>
@@ -102,21 +120,19 @@
             const paypalFields = document.getElementById('paypalFields');
             const optionBoxes = document.querySelectorAll('.option-box');
 
-            // Synchronizes visual selection card borders with the active teammates' palette schema
             function updateSelectionHighlight() {
                 optionBoxes.forEach(box => {
                     const radio = box.querySelector('input[type="radio"]');
                     if(radio.checked) {
-                        box.style.borderColor = '#E50914'; // Cinema Theme Crimson Accent 
+                        box.style.borderColor = '#E50914'; 
                         box.style.backgroundColor = '#1C1C24';
                     } else {
-                        box.style.borderColor = '#2A2A35'; // Flat Slate borders
+                        box.style.borderColor = '#2A2A35'; 
                         box.style.backgroundColor = '#15151C';
                     }
                 });
             }
 
-            // Maps whole card layouts into clickable selectors
             optionBoxes.forEach(box => {
                 box.addEventListener('click', function() {
                     this.querySelector('input[type="radio"]').checked = true;
@@ -138,7 +154,6 @@
             cardRadio.addEventListener('change', triggerViewToggle);
             paypalRadio.addEventListener('change', triggerViewToggle);
             
-            // Execute layout alignment check at startup
             triggerViewToggle();
         });
     </script>

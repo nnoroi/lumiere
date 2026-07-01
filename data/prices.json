@@ -1,0 +1,289 @@
+[
+  {
+    "movieId": 1,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 6,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 2,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 7,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 3,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 8,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 4,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 9,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 5,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 10,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 11,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 12,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 13,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 14,
+    "screenName": "Big room 1",
+    "amount": "14.00",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 15,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 16,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 17,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 18,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 19,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 20,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 1,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 2,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 3,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 4,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 5,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 6,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 7,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 8,
+    "screenName": "Room 2",
+    "amount": "10.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 9,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 10,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 11,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 12,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 13,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 14,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 15,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 16,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 17,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 18,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 19,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 20,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  },
+  {
+    "movieId": 1,
+    "screenName": "Premium Screen",
+    "amount": "18.50",
+    "currency": "GBP",
+    "locale": "en-GB"
+  }
+]
