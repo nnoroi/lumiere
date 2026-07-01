@@ -134,14 +134,33 @@ router.get('/checkout', (req, res) => {
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
 
-    const totalSeatsArray = Array.isArray(selectedSeats) ? selectedSeats : [selectedSeats];
+    let totalSeatsArray = [];
+
+    if (Array.isArray(selectedSeats)) {
+        totalSeatsArray = selectedSeats;
+        
+    } else if (selectedSeats) {
+        totalSeatsArray = selectedSeats.split(',');
+    }
     const totalTickets = totalSeatsArray.length;
+
+    const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
+    const pricesData = JSON.parse(fs.readFileSync('./data/prices.json'));
+
+    const selectedLayout = dynamicShowings.find(s => s.id === timeId);    
+    const pricingMatch = pricesData.find(p => p.movieId === parseInt(movieId) && p.screenName === selectedLayout.screenName);
+
+    const unitAmount = parseFloat(pricingMatch.amount);
+    const totalAmount = (unitAmount * totalTickets).toFixed(2);
 
     res.render('checkout', { 
         movie: selectedMovie,
         time: matchingTimeObj.time,
         seats: totalSeatsArray,
-        tickets: totalTickets
+        tickets: totalTickets,
+        unitPrice: unitAmount.toFixed(2),
+        totalPrice: totalAmount,
+        currency: pricingMatch.currency
     });
 });
 

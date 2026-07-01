@@ -25,5 +25,17 @@
       "B6"
     ],
     "tickets": "5"
+  },
+  {
+    "bookingReference": "CIN-2220",
+    "name": "Dima",
+    "email": "qwerty@gmail.com",
+    "movieTitle": "Inside Out 2",
+    "showTime": "20:00",
+    "selectedSeats": [
+      "D2",
+      "D3"
+    ],
+    "tickets": "2"
   }
 ]
