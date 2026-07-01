@@ -79,5 +79,14 @@
     "showTime": "16:30",
     "selectedSeats": "A1",
     "tickets": "1"
+  },
+  {
+    "bookingReference": "CIN-9304",
+    "name": "abid",
+    "email": "abid@gmail.com",
+    "movieTitle": "Inside Out 2",
+    "showTime": "20:00",
+    "selectedSeats": "A3,B2,B3",
+    "tickets": "3"
   }
 ]
