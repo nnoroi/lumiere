@@ -107,8 +107,13 @@ router.get('/checkout', (req, res) => {
 
 router.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
+    console.log("Selected Seats:", selectedSeats);
+    const selectedSeatsArray = selectedSeats.split(',');
+
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const bookingReference = `CIN-${randomDigits}`;
+
+    currentUser = email;
 
     const bookingData = fs.readFileSync('./data/bookings.json');
     const jsonData = JSON.parse(bookingData);
@@ -118,10 +123,28 @@ router.post('/confirm-booking', (req, res) => {
         email: currentUser,
         movieTitle: movieTitle,
         showTime: showTime,
-        selectedSeats: selectedSeats,
+        selectedSeats: selectedSeatsArray,
         tickets: tickets,
     });
+
+    const movieId = moviesData.find(m => m.title === movieTitle).id;
+    const showingId = timesData.find(t => t.time === showTime && t.movieId === movieId).showingId;
+    const purchasedSeats = selectedSeatsArray;
+
+    const selectedLayout = showingsData.find(s => s.id === showingId);
+    if (selectedLayout) {
+        selectedLayout.rows.forEach(row => {
+            row.seats.forEach(seat => {
+                const seatId = `${row.name}${seat.number}`;
+                if (purchasedSeats.includes(seatId)) {
+                    seat.available = false;
+                }
+            });
+        });
+    }
+    console.log(purchasedSeats);
     fs.writeFileSync('./data/bookings.json', JSON.stringify(jsonData, null, 2));
+
 
     res.render('confirm-booking', {
         bookingReference,
