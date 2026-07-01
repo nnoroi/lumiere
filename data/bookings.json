@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "bookingReference": "CIN-6711",
+    "name": "abid",
+    "email": "abid@gmail.com",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "17:00",
+    "selectedSeats": [
+      "A1",
+      "B1"
+    ],
+    "tickets": "2"
+  },
+  {
+    "bookingReference": "CIN-2292",
+    "name": "abid",
+    "email": "abid@gmail.com",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "17:00",
+    "selectedSeats": [
+      "A1",
+      "A2",
+      "A3"
+    ],
+    "tickets": "3"
+  },
+  {
+    "bookingReference": "CIN-2364",
+    "name": "abid",
+    "email": "abid@gmail.com",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "17:00",
+    "selectedSeats": [
+      "B2",
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "tickets": "4"
+  }
+]
