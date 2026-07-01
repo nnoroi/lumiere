@@ -2,7 +2,6 @@
   "scripts": {
     "start": "nodemon server.js --ignore data/"
   },
-  
   "dependencies": {
     "ejs": "^6.0.1",
     "express": "^5.2.1"
