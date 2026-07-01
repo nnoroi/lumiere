@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "bookingReference": "CIN-2760",
+    "name": "sadasdja",
+    "email": null,
+    "movieTitle": "Top Gun: Maverick",
+    "showTime": "17:00",
+    "selectedSeats": "A1,B1,C5",
+    "tickets": "3"
+  }
+]
