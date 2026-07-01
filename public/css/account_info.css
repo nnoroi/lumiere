@@ -1,8 +1,108 @@
+html, body {
+    background-color: #0b0c10 !important; 
+    color: #ffffff !important;
+}
+
+body.bg-dark {
+    background-color: #0b0c10 !important; 
+}
+body {
+  background-color: var(--bg-main) !important;
+}
+
+.border-secondary {
+  border-color: var(--border-dark) !important;
+}
+
+.text-danger {
+  color: var(--accent-orange-red) !important;
+}
+
+.btn-danger {
+  background-color: var(--accent-orange-red) !important;
+  border: none !important;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: var(--accent-orange-red-hover) !important;
+}
+
+.btn-outline-light {
+  border: 1px solid var(--border-dark) !important;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-light:hover {
+  background-color: #FFFFFF !important;
+  color: var(--bg-main) !important;
+}
+
+.card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-dark) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  transition: border-color 0.3s ease, transform 0.3s ease !important;
+}
+
+.card:hover {
+  border-color: var(--accent-orange-red) !important;
+  transform: translateY(-3px);
+}
+
+.card-body {
+  padding: 24px !important;
+}
+
+.card-title {
+  color: var(--text-main) !important;
+}
+
+.badge.bg-danger {
+  background-color: rgba(209, 55, 4, 0.15) !important;
+  color: var(--accent-orange-red) !important;
+  border: 1px solid var(--accent-orange-red) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.card-text {
+  color: var(--text-muted) !important;
+  font-size: 0.95rem;
+}
+
+.card-text i {
+  color: var(--accent-orange-red);
+  width: 20px;
+}
+
+.bg-black.bg-opacity-20 {
+  background-color: var(--bg-section) !important;
+  border-color: var(--border-dark) !important;
+  border-radius: 12px !important;
+}
+
 .btn-book-now {
-    background-color: #D13704 !important;
-    border: none !important;
+  background-color: var(--accent-orange-red) !important;
+  border: none !important;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 30px;
+  color: var(--text-main) !important;
+  transition: all 0.3s ease !important;
 }
 
 .btn-book-now:hover {
-    background-color: #b02e03 !important;
+  background-color: var(--accent-orange-red-hover) !important;
+  transform: translateY(-2px);
 }
