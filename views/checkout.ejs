@@ -22,8 +22,7 @@
                 <p class="mb-0 small text-white-50"><strong>Selected Seats:</strong> <%= seats %></p>
             </div>
 
-            <!-- START OF NEW PRICE BREAKDOWN BOX -->
-            <div class="p-3 rounded mb-4" style="background-color: #15151C; border: 1px solid #2A2A35;">
+            <div class="price-breakdown-box p-3 rounded mb-4">
                 <h6 class="fw-bold text-white mb-3"><i class="fa-solid fa-receipt me-2 text-danger"></i>Price Breakdown</h6>
                 <div class="d-flex justify-content-between small text-white-50 mb-2">
                     <span>Ticket Price (<%= tickets %> x)</span>
@@ -32,17 +31,15 @@
                 <hr class="border-secondary my-2">
                 <div class="d-flex justify-content-between fw-bold text-white fs-5">
                     <span>Total Amount:</span>
-                    <span style="color: #E50914;"><%= currency %> <%= totalPrice %></span>
+                    <span><%= currency %> <%= totalPrice %></span>
                 </div>
             </div>
-            <!-- END OF NEW PRICE BREAKDOWN BOX -->
 
             <form action="/confirm-booking" method="POST">
                 <input type="hidden" name="movieTitle" value="<%= movie.title %>">
                 <input type="hidden" name="showTime" value="<%= time %>">
                 <input type="hidden" name="selectedSeats" value="<%= seats %>">
                 <input type="hidden" name="tickets" value="<%= tickets %>">
-                <!-- Sending prices forward to your final confirmation route safely -->
                 <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
                 <input type="hidden" name="currency" value="<%= currency %>">
 
@@ -66,21 +63,21 @@
                 <h5 class="fw-bold mb-3 text-white"><i class="fa-solid fa-wallet me-2"></i>Select Payment Method</h5>
                 
                 <div class="d-flex gap-3 mb-4">
-                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="cardBox" style="cursor: pointer;">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="cardBox">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cardPay" value="Credit/Debit Card" checked>
-                        <label class="form-check-label w-100 fw-bold text-white" for="cardPay" style="cursor: pointer;">
+                        <label class="form-check-label w-100 fw-bold text-white" for="cardPay">
                             <i class="fa-solid fa-card-membership me-2 text-danger"></i>Card
                         </label>
                     </div>
-                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="paypalBox" style="cursor: pointer;">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="paypalBox">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="paypalPay" value="PayPal">
-                        <label class="form-check-label w-100 fw-bold text-white" for="paypalPay" style="cursor: pointer;">
+                        <label class="form-check-label w-100 fw-bold text-white" for="paypalPay">
                             <i class="fa-brands fa-paypal me-2 text-info"></i>PayPal
                         </label>
                     </div>
                 </div>
 
-                <div id="paymentInputsContainer" class="p-3 rounded mb-4" style="background-color: #0F0F14; border: 1px dashed #2A2A35;">
+                <div id="paymentInputsContainer" class="p-3 rounded mb-4">
                     
                     <div id="cardFields">
                         <div class="mb-3">
@@ -111,51 +108,6 @@
             </form>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cardRadio = document.getElementById('cardPay');
-            const paypalRadio = document.getElementById('paypalPay');
-            const cardFields = document.getElementById('cardFields');
-            const paypalFields = document.getElementById('paypalFields');
-            const optionBoxes = document.querySelectorAll('.option-box');
-
-            function updateSelectionHighlight() {
-                optionBoxes.forEach(box => {
-                    const radio = box.querySelector('input[type="radio"]');
-                    if(radio.checked) {
-                        box.style.borderColor = '#E50914'; 
-                        box.style.backgroundColor = '#1C1C24';
-                    } else {
-                        box.style.borderColor = '#2A2A35'; 
-                        box.style.backgroundColor = '#15151C';
-                    }
-                });
-            }
-
-            optionBoxes.forEach(box => {
-                box.addEventListener('click', function() {
-                    this.querySelector('input[type="radio"]').checked = true;
-                    triggerViewToggle();
-                });
-            });
-
-            function triggerViewToggle() {
-                if (cardRadio.checked) {
-                    cardFields.classList.remove('d-none');
-                    paypalFields.classList.add('d-none');
-                } else if (paypalRadio.checked) {
-                    cardFields.classList.add('d-none');
-                    paypalFields.classList.remove('d-none');
-                }
-                updateSelectionHighlight();
-            }
-
-            cardRadio.addEventListener('change', triggerViewToggle);
-            paypalRadio.addEventListener('change', triggerViewToggle);
-            
-            triggerViewToggle();
-        });
-    </script>
+    <script src="/js/checkout.js"></script>
 </body>
 </html>

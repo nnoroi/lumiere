@@ -401,3 +401,35 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center; 
   }
 }
+
+/* ===== Admin Panel ===== */
+.admin-page { background: #0A0A0F; }
+
+.admin-card {
+  background: #15151C;
+  border: 1px solid #2A2A35;
+  border-radius: 12px;
+}
+
+.admin-section-title {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8A8A99;
+  margin-bottom: 12px;
+}
+
+.admin-input {
+  background: #0F0F14;
+  border-color: #2A2A35;
+  color: #fff;
+}
+
+.admin-input:focus {
+  background: #0F0F14;
+  border-color: #E50914;
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+.admin-input::placeholder { color: #55555F; }
