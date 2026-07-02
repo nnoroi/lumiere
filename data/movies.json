@@ -338,21 +338,5 @@
     "country": "USA",
     "trailer": "https://www.youtube.com/watch?v=kVrqfYjkTdQ",
     "poster": "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
-  },
-  {
-    "id": 21,
-    "title": "Sinners",
-    "rating": "18",
-    "duration": 120,
-    "genre": "Horror",
-    "description": "A group of friends face supernatural forces.",
-    "director": "Ryan Coogler",
-    "cast": [
-      "Micheal B. Jordan",
-      "Hailee Steinfield"
-    ],
-    "country": "USA",
-    "trailer": "https://www.youtube.com/watch?v=bKGxHflevuk",
-    "poster": "https://image.tmdb.org/t/p/original/cuM1rGXxTd28KEQXBG683ODtWPY.jpg"
   }
 ]
