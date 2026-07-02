@@ -19,12 +19,15 @@
             <a class="navbar-brand" href="/">LUMIERE</a>
             <div class="nav-actions">
                 <div class="search">
-                    <form id="searchForm">
+                    <!-- FIXED: The input now has name="search" and remembers its value -->
+                    <form action="/" method="GET" id="searchForm">
                         <input 
                             type="text" 
+                            name="search"
                             id="searchInput"
                             placeholder="Search Movies" 
-                            aria-label="Search">
+                            aria-label="Search"
+                            value="<%= typeof currentSearch !== 'undefined' ? currentSearch : '' %>">
                         <button type="submit">
                             <i class="fa fa-search"></i>
                         </button>
@@ -46,17 +49,17 @@
             <label for="genre" class="text-white small mb-1">Genre</label>
             <select name="genre" id="genre" class="form-select bg-secondary text-white border-0">
                 <option value="">All Genres</option>
-                <option value="Sci-Fi" <%= selectedGenre === 'Sci-Fi' ? 'selected' : '' %>>Sci-Fi</option>
-                <option value="Animation" <%= selectedGenre === 'Animation' ? 'selected' : '' %>>Animation</option>
-                <option value="Drama" <%= selectedGenre === 'Drama' ? 'selected' : '' %>>Drama</option>
-                <option value="Comedy" <%= selectedGenre === 'Comedy' ? 'selected' : '' %>>Comedy</option>
-                <option value="Action" <%= selectedGenre === 'Action' ? 'selected' : '' %>>Action</option>
-                <option value="Thriller" <%= selectedGenre === 'Thriller' ? 'selected' : '' %>>Thriller</option>
-                <option value="Crime" <%= selectedGenre === 'Crime' ? 'selected' : '' %>>Crime</option>
-                <option value="Historical" <%= selectedGenre === 'Historical' ? 'selected' : '' %>>Historical</option>
-                <option value="Musical" <%= selectedGenre === 'Musical' ? 'selected' : '' %>>Musical</option>
-                <option value="Adventure" <%= selectedGenre === 'Adventure' ? 'selected' : '' %>>Adventure</option>
-                <option value="Romance" <%= selectedGenre === 'Romance' ? 'selected' : '' %>>Romance</option>
+                <option value="Sci-Fi" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Sci-Fi' ? 'selected' : '' %>>Sci-Fi</option>
+                <option value="Animation" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Animation' ? 'selected' : '' %>>Animation</option>
+                <option value="Drama" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Drama' ? 'selected' : '' %>>Drama</option>
+                <option value="Comedy" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Comedy' ? 'selected' : '' %>>Comedy</option>
+                <option value="Action" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Action' ? 'selected' : '' %>>Action</option>
+                <option value="Thriller" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Thriller' ? 'selected' : '' %>>Thriller</option>
+                <option value="Crime" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Crime' ? 'selected' : '' %>>Crime</option>
+                <option value="Historical" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Historical' ? 'selected' : '' %>>Historical</option>
+                <option value="Musical" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Musical' ? 'selected' : '' %>>Musical</option>
+                <option value="Adventure" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Adventure' ? 'selected' : '' %>>Adventure</option>
+                <option value="Romance" <%= typeof selectedGenre !== 'undefined' && selectedGenre === 'Romance' ? 'selected' : '' %>>Romance</option>
             </select>
         </div>
 
@@ -64,20 +67,20 @@
             <label for="rating" class="text-white small mb-1">Age Rating</label>
             <select name="rating" id="rating" class="form-select bg-secondary text-white border-0">
                 <option value="">All Ratings</option>
-                <option value="U" <%= selectedRating === 'U' ? 'selected' : '' %>>U</option>
-                <option value="PG" <%= selectedRating === 'PG' ? 'selected' : '' %>>PG</option>
-                <option value="12A" <%= selectedRating === '12A' ? 'selected' : '' %>>12A</option>
-                <option value="15" <%= selectedRating === '15' ? 'selected' : '' %>>15</option>
-                <option value="18" <%= selectedRating === '18' ? 'selected' : '' %>>18</option>
+                <option value="U" <%= typeof selectedRating !== 'undefined' && selectedRating === 'U' ? 'selected' : '' %>>U</option>
+                <option value="PG" <%= typeof selectedRating !== 'undefined' && selectedRating === 'PG' ? 'selected' : '' %>>PG</option>
+                <option value="12A" <%= typeof selectedRating !== 'undefined' && selectedRating === '12A' ? 'selected' : '' %>>12A</option>
+                <option value="15" <%= typeof selectedRating !== 'undefined' && selectedRating === '15' ? 'selected' : '' %>>15</option>
+                <option value="18" <%= typeof selectedRating !== 'undefined' && selectedRating === '18' ? 'selected' : '' %>>18</option>
             </select>
         </div>
 
         <div class="col-md-3">
             <label for="sortByTime" class="text-white small mb-1">Showtime Schedule</label>
-            <select name="sortByTime" id="sortByDate" class="form-select bg-secondary text-white border-0">
+            <select name="sortByDate" id="sortByDate" class="form-select bg-secondary text-white border-0">
                 <option value="">Default View</option>
-                <option>Recent</option>
-                <option></option>
+                <option value="dateAsc" <%= selectedSort === 'dateAsc' ? 'selected' : '' %>>Showing Date: Earliest First</option>
+                <option value="dateDesc" <%= selectedSort === 'dateDesc' ? 'selected' : '' %>>Showing Date: Latest First</option>
             </select>
         </div>
 
@@ -93,22 +96,28 @@
         <h1 class="mb-4">Now Showing</h1>
         
         <div id="movie-container" class="row g-4">
-            <% movies.forEach(movie => { %>
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img src="<%= movie.poster %>" class="card-img-top" alt="<%= movie.title %> poster">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold"><%= movie.title %></h5>
-                            <p class="card-text mb-1"><strong>Genre:</strong> <%= movie.genre %></p>
-                            <p class="card-text mb-1"><strong>Duration:</strong> <%= movie.duration %> min</p>
-                            <span class="movie-rating"><%= movie.rating %></span>
-                        </div>
-                        <div class="card-footer border-0 bg-transparent">
-                            <a href="/booking?movieId=<%= movie.id %>" class="btn btn-lumiere w-100">Book Tickets</a>
+            <% if (movies.length === 0) { %>
+                <div class="col-12">
+                    <p class="text-white text-center fs-5">No movies found matching your criteria.</p>
+                </div>
+            <% } else { %>
+                <% movies.forEach(movie => { %>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <img src="<%= movie.poster %>" class="card-img-top" alt="<%= movie.title %> poster">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold"><%= movie.title %></h5>
+                                <p class="card-text mb-1"><strong>Genre:</strong> <%= movie.genre %></p>
+                                <p class="card-text mb-1"><strong>Duration:</strong> <%= movie.duration %> min</p>
+                                <span class="movie-rating"><%= movie.rating %></span>
+                            </div>
+                            <div class="card-footer border-0 bg-transparent">
+                                <a href="/booking?movieId=<%= movie.id %>" class="btn btn-lumiere w-100">Book Tickets</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% }); %>
+                <% }); %>
+            <% } %>
         </div>
     </div>
 

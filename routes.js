@@ -6,24 +6,28 @@ const path = require('path');
 
 const moviesData = require('./data/movies.json'); 
 const timesData = require('./data/times.json');
-const showingsData = require('./data/showings.json');
 const usersFile = path.join(__dirname, './data/users.json');
 
 let currentUser = null;
 
 router.get('/', (req, res) => {
-    const {genre, rating, sortByDate} = req.query;
-    let filteredMovies = moviesData;
+    const { genre, rating, sortByDate, search } = req.query;
+    const searchInput = (search || '').trim().toLowerCase();
+    
+    let filteredMovies = [...moviesData];
 
+    if (searchInput) {
+        filteredMovies = filteredMovies.filter(movie => 
+            movie.title.toLowerCase().includes(searchInput)
+        );
+    }
     if (genre) {
         filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
     }
     if (rating){
         filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
     }
-
     let userBookings = [];
-
     if (currentUser) {
         try {
             const bookingData = fs.readFileSync('./data/bookings.json');
@@ -34,15 +38,33 @@ router.get('/', (req, res) => {
         }
     }
 
+    const selectedSort = req.query.sortByDate;
+    if (selectedSort === 'dateAsc' || selectedSort === 'dateDesc') {
+        filteredMovies.sort((movieA, movieB) => {
+            const timesA = timesData.filter(t => String(t.movieId) === String(movieA.id));
+            const timesB = timesData.filter(t => String(t.movieId) === String(movieB.id));
+
+            const dateA = new Date(timesA[0] ? timesA[0].date : '');
+            const dateB = new Date(timesB[0] ? timesB[0].date : '');
+
+            if (selectedSort === 'dateAsc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        });
+    }
+
     res.render('index', { 
-        movies:filteredMovies, 
-        selectedGenre: genre, 
-        selectedRating: rating, 
+        movies: filteredMovies, 
+        selectedGenre: genre || '', 
+        selectedRating: rating || '', 
+        selectedSort: sortByDate || '',
+        currentSearch: search || '', 
         user: currentUser, 
         bookings: userBookings
     });
 });
-
 
 router.get("/booking", (req, res) => {
     const movieId = req.query.movieId;
@@ -62,18 +84,39 @@ router.get('/booking/seats', (req, res) => {
 
     const selectedMovie = moviesData.find(m => m.id === movieId);
     const selectedShowtime = timesData.find(t => t.showingId === showingId);
-    const selectedLayout = showingsData.find(s => s.id === showingId);
+    
+    const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
+    const selectedLayout = dynamicShowings.find(s => s.id === showingId);
 
     if (!selectedMovie || !selectedShowtime || !selectedLayout) {
         return res.redirect('/');
     }
 
+    let bookedSeatsList = [];
+    try {
+        const bookingData = fs.readFileSync('./data/bookings.json');
+        const allBookings = JSON.parse(bookingData);
+        
+        const matchingBookings = allBookings.filter(b => 
+            b.movieTitle === selectedMovie.title && b.showTime === selectedShowtime.time
+        );
+        
+        bookedSeatsList = matchingBookings.flatMap(b => b.selectedSeats);
+    } catch (error) {
+        console.log("Bookings file read error or empty");
+    }
+
     const flatSeats = selectedLayout.rows.flatMap(row =>
-        row.seats.map(seat => ({
-            id: `${row.name}${seat.number}`,
-            name: `${row.name}${seat.number}`,
-            isOccupied: !seat.available
-        }))
+        row.seats.map(seat => {
+            const seatName = `${row.name}${seat.number}`;
+            
+            const isOccupied = bookedSeatsList.includes(seatName) || seat.available === false;
+            return {
+                id: seatName,
+                name: seatName,
+                isOccupied: isOccupied
+            };
+        })
     );
 
     res.render('seats', {
@@ -91,23 +134,39 @@ router.get('/checkout', (req, res) => {
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
 
-    // selectedSeats is a string if 1 checkbox was checked,
-    // or an array if multiple share the same name
-    const totalSeatsArray = Array.isArray(selectedSeats) ? selectedSeats : [selectedSeats];
+    let totalSeatsArray = [];
+
+    if (Array.isArray(selectedSeats)) {
+        totalSeatsArray = selectedSeats;
+        
+    } else if (selectedSeats) {
+        totalSeatsArray = selectedSeats.split(',');
+    }
     const totalTickets = totalSeatsArray.length;
+
+    const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
+    const pricesData = JSON.parse(fs.readFileSync('./data/prices.json'));
+
+    const selectedLayout = dynamicShowings.find(s => s.id === timeId);    
+    const pricingMatch = pricesData.find(p => p.movieId === parseInt(movieId) && p.screenName === selectedLayout.screenName);
+
+    const unitAmount = parseFloat(pricingMatch.amount);
+    const totalAmount = (unitAmount * totalTickets).toFixed(2);
 
     res.render('checkout', { 
         movie: selectedMovie,
         time: matchingTimeObj.time,
         seats: totalSeatsArray,
-        tickets: totalTickets
+        tickets: totalTickets,
+        unitPrice: unitAmount.toFixed(2),
+        totalPrice: totalAmount,
+        currency: pricingMatch.currency
     });
 });
 
 
 router.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
-    console.log("Selected Seats:", selectedSeats);
     const selectedSeatsArray = selectedSeats.split(',');
 
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
@@ -115,6 +174,7 @@ router.post('/confirm-booking', (req, res) => {
 
     currentUser = email;
 
+    // 1. Read, update, and save to bookings.json
     const bookingData = fs.readFileSync('./data/bookings.json');
     const jsonData = JSON.parse(bookingData);
     jsonData.push({
@@ -126,25 +186,7 @@ router.post('/confirm-booking', (req, res) => {
         selectedSeats: selectedSeatsArray,
         tickets: tickets,
     });
-
-    const movieId = moviesData.find(m => m.title === movieTitle).id;
-    const showingId = timesData.find(t => t.time === showTime && t.movieId === movieId).showingId;
-    const purchasedSeats = selectedSeatsArray;
-
-    const selectedLayout = showingsData.find(s => s.id === showingId);
-    if (selectedLayout) {
-        selectedLayout.rows.forEach(row => {
-            row.seats.forEach(seat => {
-                const seatId = `${row.name}${seat.number}`;
-                if (purchasedSeats.includes(seatId)) {
-                    seat.available = false;
-                }
-            });
-        });
-    }
-    console.log(purchasedSeats);
     fs.writeFileSync('./data/bookings.json', JSON.stringify(jsonData, null, 2));
-
 
     res.render('confirm-booking', {
         bookingReference,
@@ -195,9 +237,6 @@ router.post('/register', (req, res) => {
 
     currentUser = email;
     res.redirect('/');
-
-
-
 });
 
 router.post('/login', (req, res) => {
