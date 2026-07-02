@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [
   {
     "bookingReference": "CIN-2760",
@@ -47,47 +46,5 @@
       "A3"
     ],
     "tickets": "3"
-  },
-  {
-    "bookingReference": "CIN-7924",
-    "name": "abfasdkahj",
-    "email": "djshkfsh@jkhdf",
-    "movieTitle": "Oppenheimer",
-    "showTime": "17:30",
-    "selectedSeats": [
-      "A1",
-      "B1",
-      "B2"
-    ],
-    "tickets": "3"
-  },
-  {
-    "bookingReference": "CIN-9943",
-    "name": "abfasdkahj",
-    "email": "djshkfsh@jkhdf",
-    "movieTitle": "Oppenheimer",
-    "showTime": "17:30",
-    "selectedSeats": [
-      "A1",
-      "B1",
-      "B2"
-    ],
-    "tickets": "3"
-  },
-  {
-    "bookingReference": "CIN-2685",
-    "name": "abfasdkahj",
-    "email": "djshkfsh@jkhdf",
-    "movieTitle": "Oppenheimer",
-    "showTime": "17:30",
-    "selectedSeats": [
-      "A1",
-      "B1",
-      "B2"
-    ],
-    "tickets": "3"
   }
 ]
-=======
-[]
->>>>>>> origin/main
