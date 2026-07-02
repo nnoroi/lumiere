@@ -6,28 +6,28 @@ const path = require('path');
 
 const moviesData = require('./data/movies.json'); 
 const timesData = require('./data/times.json');
+const showingsData = require('./data/showings.json');
 const usersFile = path.join(__dirname, './data/users.json');
 
 let currentUser = null;
+let isAdmin = false;
+
+const ADMIN_USER = 'abid'
+const ADMIN_PASS = 'dymytrii'
 
 router.get('/', (req, res) => {
-    const { genre, rating, sortByDate, search } = req.query;
-    const searchInput = (search || '').trim().toLowerCase();
-    
-    let filteredMovies = [...moviesData];
+    const {genre, rating, sortByDate} = req.query;
+    let filteredMovies = moviesData;
 
-    if (searchInput) {
-        filteredMovies = filteredMovies.filter(movie => 
-            movie.title.toLowerCase().includes(searchInput)
-        );
-    }
     if (genre) {
         filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
     }
     if (rating){
         filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
     }
+
     let userBookings = [];
+
     if (currentUser) {
         try {
             const bookingData = fs.readFileSync('./data/bookings.json');
@@ -38,29 +38,11 @@ router.get('/', (req, res) => {
         }
     }
 
-    const selectedSort = req.query.sortByDate;
-    if (selectedSort === 'dateAsc' || selectedSort === 'dateDesc') {
-        filteredMovies.sort((movieA, movieB) => {
-            const timesA = timesData.filter(t => String(t.movieId) === String(movieA.id));
-            const timesB = timesData.filter(t => String(t.movieId) === String(movieB.id));
-
-            const dateA = new Date(timesA[0] ? timesA[0].date : '');
-            const dateB = new Date(timesB[0] ? timesB[0].date : '');
-
-            if (selectedSort === 'dateAsc') {
-                return dateA - dateB;
-            } else {
-                return dateB - dateA;
-            }
-        });
-    }
-
     res.render('index', { 
         movies: filteredMovies, 
-        selectedGenre: genre || '', 
-        selectedRating: rating || '', 
-        selectedSort: sortByDate || '',
-        currentSearch: search || '', 
+        selectedGenre: genre, 
+        selectedRating: rating, 
+        selectedSort: sortByDate,  // ADDED
         user: currentUser, 
         bookings: userBookings
     });
@@ -84,39 +66,18 @@ router.get('/booking/seats', (req, res) => {
 
     const selectedMovie = moviesData.find(m => m.id === movieId);
     const selectedShowtime = timesData.find(t => t.showingId === showingId);
-    
-    const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
-    const selectedLayout = dynamicShowings.find(s => s.id === showingId);
+    const selectedLayout = showingsData.find(s => s.id === showingId);
 
     if (!selectedMovie || !selectedShowtime || !selectedLayout) {
         return res.redirect('/');
     }
 
-    let bookedSeatsList = [];
-    try {
-        const bookingData = fs.readFileSync('./data/bookings.json');
-        const allBookings = JSON.parse(bookingData);
-        
-        const matchingBookings = allBookings.filter(b => 
-            b.movieTitle === selectedMovie.title && b.showTime === selectedShowtime.time
-        );
-        
-        bookedSeatsList = matchingBookings.flatMap(b => b.selectedSeats);
-    } catch (error) {
-        console.log("Bookings file read error or empty");
-    }
-
     const flatSeats = selectedLayout.rows.flatMap(row =>
-        row.seats.map(seat => {
-            const seatName = `${row.name}${seat.number}`;
-            
-            const isOccupied = bookedSeatsList.includes(seatName) || seat.available === false;
-            return {
-                id: seatName,
-                name: seatName,
-                isOccupied: isOccupied
-            };
-        })
+        row.seats.map(seat => ({
+            id: `${row.name}${seat.number}`,
+            name: `${row.name}${seat.number}`,
+            isOccupied: !seat.available
+        }))
     );
 
     res.render('seats', {
@@ -134,39 +95,20 @@ router.get('/checkout', (req, res) => {
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
 
-    let totalSeatsArray = [];
-
-    if (Array.isArray(selectedSeats)) {
-        totalSeatsArray = selectedSeats;
-        
-    } else if (selectedSeats) {
-        totalSeatsArray = selectedSeats.split(',');
-    }
+    const totalSeatsArray = Array.isArray(selectedSeats) ? selectedSeats : [selectedSeats];
     const totalTickets = totalSeatsArray.length;
-
-    const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
-    const pricesData = JSON.parse(fs.readFileSync('./data/prices.json'));
-
-    const selectedLayout = dynamicShowings.find(s => s.id === timeId);    
-    const pricingMatch = pricesData.find(p => p.movieId === parseInt(movieId) && p.screenName === selectedLayout.screenName);
-
-    const unitAmount = parseFloat(pricingMatch.amount);
-    const totalAmount = (unitAmount * totalTickets).toFixed(2);
 
     res.render('checkout', { 
         movie: selectedMovie,
         time: matchingTimeObj.time,
         seats: totalSeatsArray,
-        tickets: totalTickets,
-        unitPrice: unitAmount.toFixed(2),
-        totalPrice: totalAmount,
-        currency: pricingMatch.currency
+        tickets: totalTickets
     });
 });
 
-
 router.post('/confirm-booking', (req, res) => {
     const { name, email, tickets, movieTitle, showTime, selectedSeats } = req.body;
+    console.log("Selected Seats:", selectedSeats);
     const selectedSeatsArray = selectedSeats.split(',');
 
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
@@ -174,7 +116,6 @@ router.post('/confirm-booking', (req, res) => {
 
     currentUser = email;
 
-    // 1. Read, update, and save to bookings.json
     const bookingData = fs.readFileSync('./data/bookings.json');
     const jsonData = JSON.parse(bookingData);
     jsonData.push({
@@ -186,6 +127,23 @@ router.post('/confirm-booking', (req, res) => {
         selectedSeats: selectedSeatsArray,
         tickets: tickets,
     });
+
+    const movieId = moviesData.find(m => m.title === movieTitle).id;
+    const showingId = timesData.find(t => t.time === showTime && t.movieId === movieId).showingId;
+    const purchasedSeats = selectedSeatsArray;
+
+    const selectedLayout = showingsData.find(s => s.id === showingId);
+    if (selectedLayout) {
+        selectedLayout.rows.forEach(row => {
+            row.seats.forEach(seat => {
+                const seatId = `${row.name}${seat.number}`;
+                if (purchasedSeats.includes(seatId)) {
+                    seat.available = false;
+                }
+            });
+        });
+    }
+    console.log(purchasedSeats);
     fs.writeFileSync('./data/bookings.json', JSON.stringify(jsonData, null, 2));
 
     res.render('confirm-booking', {
@@ -242,6 +200,11 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
     const {username, password} = req.body;
 
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        isAdmin = true;
+        return res.redirect('/admin');
+    }
+
     const userData = fs.readFileSync(usersFile);
     const registeredUser = JSON.parse(userData);
 
@@ -249,6 +212,7 @@ router.post('/login', (req, res) => {
 
     if (foundUser) {
         currentUser = foundUser.email;
+        isAdmin = false;
         res.redirect('/');
     } else {
         res.redirect('/account?mode=login')
@@ -257,7 +221,50 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', (req, res) => {
     currentUser = null;
+    isAdmin = false;
     res.redirect('/');
+});
+
+router.get('/admin', (req, res) => {
+    if (!isAdmin) return res.redirect('/account?mode=login');
+    res.render('admin_panel', { success: null, error: null });
+});
+
+router.post('/admin/add-movie', (req, res) => {
+    if (!isAdmin) return res.redirect('/account?mode=login');
+
+    const { title, poster, genre, duration, director, cast, country, description, rating, trailer, screenName, screenType, numRows, seatsPerRow, date, time } = req.body;
+
+    const newMovieId = Math.max(...moviesData.map(m => m.id)) + 1;
+    const newShowingId = Math.max(...showingsData.map(s => s.id)) + 1;
+
+    const rowLetters = 'ABCD'.slice(0, parseInt(numRows)).split('');
+    const rows = rowLetters.map(letter => ({
+        name: letter,
+        seats: Array.from({ length: parseInt(seatsPerRow) }, (_, i) => ({ number: i + 1, available: true }))
+    }));
+
+    const newMovie = {
+        id: newMovieId,
+        title, poster, genre,
+        duration: parseInt(duration),
+        director,
+        cast: cast.split(',').map(c => c.trim()),
+        country, description, rating, trailer
+    };
+
+    const newShowing = { id: newShowingId, type: screenType, screenName, rows };
+    const newTime = { movieId: newMovieId, showingId: newShowingId, date, time };
+
+    moviesData.push(newMovie);
+    showingsData.push(newShowing);
+    timesData.push(newTime);
+
+    fs.writeFileSync('./data/movies.json', JSON.stringify(moviesData, null, 2));
+    fs.writeFileSync('./data/showings.json', JSON.stringify(showingsData, null, 2));
+    fs.writeFileSync('./data/times.json', JSON.stringify(timesData, null, 2));
+
+    res.render('admin_panel', { success: `"${title}" added successfully.`, error: null });
 });
 
 module.exports = router;
