@@ -1,4 +1,3 @@
-// routes.js
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
@@ -12,22 +11,46 @@ const usersFile = path.join(__dirname, './data/users.json');
 let currentUser = null;
 let isAdmin = false;
 
-const ADMIN_USER = 'abid'
-const ADMIN_PASS = 'dymytrii'
+const ADMIN_USER = 'abid';
+const ADMIN_PASS = 'dymytrii';
 
 router.get('/', (req, res) => {
-    const {genre, rating, sortByDate} = req.query;
-    let filteredMovies = moviesData;
+    const { genre, rating, sortByDate, search } = req.query;
+    const searchInput = (search || '').trim().toLowerCase();
+    
+    let filteredMovies = [...moviesData];
+
+    if (searchInput) {
+        filteredMovies = filteredMovies.filter(movie => 
+            movie.title.toLowerCase().includes(searchInput)
+        );
+    }
 
     if (genre) {
         filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
     }
+
     if (rating){
         filteredMovies = filteredMovies.filter(movie => movie.rating === rating);
     }
 
-    let userBookings = [];
+    if (sortByDate === 'dateAsc' || sortByDate === 'dateDesc') {
+        filteredMovies.sort((movieA, movieB) => {
+            const timesA = timesData.filter(t => String(t.movieId) === String(movieA.id));
+            const timesB = timesData.filter(t => String(t.movieId) === String(movieB.id));
 
+            const dateA = new Date(timesA[0] ? timesA[0].date : '');
+            const dateB = new Date(timesB[0] ? timesB[0].date : '');
+
+            if (sortByDate === 'dateAsc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        });
+    }
+
+    let userBookings = [];
     if (currentUser) {
         try {
             const bookingData = fs.readFileSync('./data/bookings.json');
@@ -40,14 +63,14 @@ router.get('/', (req, res) => {
 
     res.render('index', { 
         movies: filteredMovies, 
-        selectedGenre: genre, 
-        selectedRating: rating, 
-        selectedSort: sortByDate,  // ADDED
+        selectedGenre: genre || '', 
+        selectedRating: rating || '', 
+        selectedSort: sortByDate || '',
+        currentSearch: search || '', 
         user: currentUser, 
         bookings: userBookings
     });
 });
-
 router.get("/booking", (req, res) => {
     const movieId = req.query.movieId;
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
@@ -63,6 +86,7 @@ router.get("/booking", (req, res) => {
 router.get('/booking/seats', (req, res) => {
     const movieId = parseInt(req.query.movieId);
     const showingId = parseInt(req.query.showingId);
+    const errorMsg = req.query.error || null;
 
     const selectedMovie = moviesData.find(m => m.id === movieId);
     const selectedShowtime = timesData.find(t => t.showingId === showingId);
@@ -119,12 +143,10 @@ router.get('/booking/seats', (req, res) => {
         showtime: selectedShowtime,
         seatLayout: seatLayout,
         screenName: selectedLayout.screenName,
-        screenType: selectedLayout.type
+        screenType: selectedLayout.type,
+        error: errorMsg
     });
 });
-
-
-
 
 router.post('/checkout', (req, res) => {
     const { movieId, showingId, selectedSeats } = req.body;
@@ -133,21 +155,53 @@ router.post('/checkout', (req, res) => {
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
 
     let totalSeatsArray = [];
-
     if (Array.isArray(selectedSeats)) {
         totalSeatsArray = selectedSeats;
-        
     } else if (selectedSeats) {
         totalSeatsArray = selectedSeats.split(',');
     }
-    
+
+    if (totalSeatsArray.length === 0) {
+        const errorMsg = encodeURIComponent("Please select at least one seat.");
+        return res.redirect(`/booking/seats?movieId=${movieId}&showingId=${showingId}&error=${errorMsg}`);
+    }
+
+    if (totalSeatsArray.length > 6) {
+        const errorMsg = encodeURIComponent("You can only select up to 6 seats per booking.");
+        return res.redirect(`/booking/seats?movieId=${movieId}&showingId=${showingId}&error=${errorMsg}`);
+    }
+
     const totalTickets = totalSeatsArray.length;
+
+    let unitAmount = 0;
+    let currencySymbol = '$';
+    
+    try {
+        const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json'));
+        const pricesData = JSON.parse(fs.readFileSync('./data/prices.json'));
+
+        const selectedLayout = dynamicShowings.find(s => s.id === timeId);    
+        if (selectedLayout) {
+            const pricingMatch = pricesData.find(p => p.movieId === parseInt(movieId) && p.screenName === selectedLayout.screenName);
+            if (pricingMatch) {
+                unitAmount = parseFloat(pricingMatch.amount);
+                currencySymbol = pricingMatch.currency || '$';
+            }
+        }
+    } catch (err) {
+        console.log("Error reading price layout configuration maps:", err.message);
+    }
+
+    const totalAmount = (unitAmount * totalTickets).toFixed(2);
 
     res.render('checkout', { 
         movie: selectedMovie,
-        time: matchingTimeObj.time,
+        time: matchingTimeObj ? matchingTimeObj.time : '',
         seats: totalSeatsArray,
-        tickets: totalTickets
+        tickets: totalTickets,
+        unitPrice: unitAmount.toFixed(2), 
+        totalPrice: totalAmount,          
+        currency: currencySymbol          
     });
 });
 

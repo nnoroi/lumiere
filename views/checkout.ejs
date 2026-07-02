@@ -22,7 +22,8 @@
                 <p class="mb-0 small text-white-50"><strong>Selected Seats:</strong> <%= seats %></p>
             </div>
 
-            <div class="price-breakdown-box p-3 rounded mb-4">
+            <!-- START OF NEW PRICE BREAKDOWN BOX -->
+            <div class="p-3 rounded mb-4" style="background-color: #15151C; border: 1px solid #2A2A35;">
                 <h6 class="fw-bold text-white mb-3"><i class="fa-solid fa-receipt me-2 text-danger"></i>Price Breakdown</h6>
                 <div class="d-flex justify-content-between small text-white-50 mb-2">
                     <span>Ticket Price (<%= tickets %> x)</span>
@@ -31,15 +32,17 @@
                 <hr class="border-secondary my-2">
                 <div class="d-flex justify-content-between fw-bold text-white fs-5">
                     <span>Total Amount:</span>
-                    <span><%= currency %> <%= totalPrice %></span>
+                    <span style="color: #E50914;"><%= currency %> <%= totalPrice %></span>
                 </div>
             </div>
+            <!-- END OF NEW PRICE BREAKDOWN BOX -->
 
             <form action="/confirm-booking" method="POST">
                 <input type="hidden" name="movieTitle" value="<%= movie.title %>">
                 <input type="hidden" name="showTime" value="<%= time %>">
                 <input type="hidden" name="selectedSeats" value="<%= seats %>">
                 <input type="hidden" name="tickets" value="<%= tickets %>">
+                <!-- Sending prices forward to your final confirmation route safely -->
                 <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
                 <input type="hidden" name="currency" value="<%= currency %>">
 
@@ -63,21 +66,21 @@
                 <h5 class="fw-bold mb-3 text-white"><i class="fa-solid fa-wallet me-2"></i>Select Payment Method</h5>
                 
                 <div class="d-flex gap-3 mb-4">
-                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="cardBox">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="cardBox" style="cursor: pointer;">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cardPay" value="Credit/Debit Card" checked>
-                        <label class="form-check-label w-100 fw-bold text-white" for="cardPay">
+                        <label class="form-check-label w-100 fw-bold text-white" for="cardPay" style="cursor: pointer;">
                             <i class="fa-solid fa-card-membership me-2 text-danger"></i>Card
                         </label>
                     </div>
-                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="paypalBox">
+                    <div class="form-check p-3 rounded flex-fill text-center option-box" id="paypalBox" style="cursor: pointer;">
                         <input class="form-check-input d-none" type="radio" name="paymentMethod" id="paypalPay" value="PayPal">
-                        <label class="form-check-label w-100 fw-bold text-white" for="paypalPay">
+                        <label class="form-check-label w-100 fw-bold text-white" for="paypalPay" style="cursor: pointer;">
                             <i class="fa-brands fa-paypal me-2 text-info"></i>PayPal
                         </label>
                     </div>
                 </div>
 
-                <div id="paymentInputsContainer" class="p-3 rounded mb-4">
+                <div id="paymentInputsContainer" class="p-3 rounded mb-4" style="background-color: #0F0F14; border: 1px dashed #2A2A35;">
                     
                     <div id="cardFields">
                         <div class="mb-3">
@@ -108,6 +111,7 @@
             </form>
         </div>
     </div>
+
     <script src="/js/checkout.js"></script>
 </body>
 </html>

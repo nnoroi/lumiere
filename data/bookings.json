@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "bookingReference": "CIN-1496",
+    "name": "Dima",
+    "email": "qwerty@gmail.com",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "21:00",
+    "selectedSeats": [
+      "D4",
+      "D5",
+      "D6",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tickets": "6"
+  },
+  {
+    "bookingReference": "CIN-1226",
+    "name": "Dima",
+    "email": "barbotkodim@gmail.com",
+    "movieTitle": "Titanic",
+    "showTime": "18:00",
+    "selectedSeats": [
+      "D4",
+      "D5",
+      "D6",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tickets": "6"
+  }
+]
