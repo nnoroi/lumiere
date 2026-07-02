@@ -72,30 +72,75 @@ router.get('/booking/seats', (req, res) => {
         return res.redirect('/');
     }
 
-    const flatSeats = selectedLayout.rows.flatMap(row =>
-        row.seats.map(seat => ({
-            id: `${row.name}${seat.number}`,
-            name: `${row.name}${seat.number}`,
-            isOccupied: !seat.available
-        }))
-    );
+    let bookedSeatsList = [];
+    try {
+        const bookingData = fs.readFileSync('./data/bookings.json');
+        const allBookings = JSON.parse(bookingData);
+        
+        const matchingBookings = allBookings.filter(b => 
+            b.movieTitle === selectedMovie.title && b.showTime === selectedShowtime.time
+        );
+        
+        bookedSeatsList = matchingBookings.flatMap(b => b.selectedSeats);
+    } catch (error) {
+        console.log("Bookings file read error or empty");
+    }
+
+    const rows = {};
+    selectedLayout.rows.forEach(row => {
+        const letter = row.name; 
+        rows[letter] = rows[letter] || [];
+
+        row.seats.forEach(seat => {
+            const seatName = `${letter}${seat.number}`;
+            const isOccupied = bookedSeatsList.includes(seatName) || seat.available === false;
+
+            rows[letter].push({
+                id: seatName,
+                name: seatName,
+                num: seat.number, 
+                isOccupied: isOccupied
+            });
+        });
+    });
+    const seatLayout = Object.keys(rows).sort().map(letter => {
+        const rowSeats = rows[letter];
+        const half = Math.ceil(rowSeats.length / 2);
+        
+        return {
+            letter: letter,
+            left: rowSeats.slice(0, half),
+            right: rowSeats.slice(half)
+        };
+    });
 
     res.render('seats', {
         movie: selectedMovie,
         showtime: selectedShowtime,
-        seats: flatSeats,
+        seatLayout: seatLayout,
         screenName: selectedLayout.screenName,
         screenType: selectedLayout.type
     });
 });
 
-router.get('/checkout', (req, res) => {
-    const { movieId, showingId, selectedSeats } = req.query;
+
+
+
+router.post('/checkout', (req, res) => {
+    const { movieId, showingId, selectedSeats } = req.body;
     const timeId = parseInt(showingId);
     const matchingTimeObj = timesData.find(t => t.showingId === timeId);
     const selectedMovie = moviesData.find(m => m.id === parseInt(movieId));
 
-    const totalSeatsArray = Array.isArray(selectedSeats) ? selectedSeats : [selectedSeats];
+    let totalSeatsArray = [];
+
+    if (Array.isArray(selectedSeats)) {
+        totalSeatsArray = selectedSeats;
+        
+    } else if (selectedSeats) {
+        totalSeatsArray = selectedSeats.split(',');
+    }
+    
     const totalTickets = totalSeatsArray.length;
 
     res.render('checkout', { 
