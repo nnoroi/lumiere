@@ -7,5 +7,83 @@
     "showTime": "17:00",
     "selectedSeats": "A1,B1,C5",
     "tickets": "3"
+  },
+  {
+    "bookingReference": "CIN-4906",
+    "name": "sd,jhbf,z",
+    "email": "nsbdfbsmnb@bmnbdsm",
+    "movieTitle": "Parasite",
+    "showTime": "20:00",
+    "selectedSeats": [
+      "A1",
+      "A3",
+      "B1",
+      "B2"
+    ],
+    "tickets": "4"
+  },
+  {
+    "bookingReference": "CIN-9571",
+    "name": "zsd",
+    "email": "sd@ddsf",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "17:00",
+    "selectedSeats": [
+      "A1",
+      "A2"
+    ],
+    "tickets": "2"
+  },
+  {
+    "bookingReference": "CIN-5665",
+    "name": "sf",
+    "email": "wd2@FSA",
+    "movieTitle": "Dune: Part Two",
+    "showTime": "21:00",
+    "selectedSeats": [
+      "A1",
+      "A2",
+      "A3"
+    ],
+    "tickets": "3"
+  },
+  {
+    "bookingReference": "CIN-7924",
+    "name": "abfasdkahj",
+    "email": "djshkfsh@jkhdf",
+    "movieTitle": "Oppenheimer",
+    "showTime": "17:30",
+    "selectedSeats": [
+      "A1",
+      "B1",
+      "B2"
+    ],
+    "tickets": "3"
+  },
+  {
+    "bookingReference": "CIN-9943",
+    "name": "abfasdkahj",
+    "email": "djshkfsh@jkhdf",
+    "movieTitle": "Oppenheimer",
+    "showTime": "17:30",
+    "selectedSeats": [
+      "A1",
+      "B1",
+      "B2"
+    ],
+    "tickets": "3"
+  },
+  {
+    "bookingReference": "CIN-2685",
+    "name": "abfasdkahj",
+    "email": "djshkfsh@jkhdf",
+    "movieTitle": "Oppenheimer",
+    "showTime": "17:30",
+    "selectedSeats": [
+      "A1",
+      "B1",
+      "B2"
+    ],
+    "tickets": "3"
   }
 ]
