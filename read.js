@@ -17,9 +17,9 @@ router.get('/', (req, res) => {
         );
     }
     
-
+    // User Booking History: If a customer is logged in, look up their dynamic booking history
     let userBookings = [];
-    if (currentUser) { //if user login 
+    if (currentUser) { 
         try {
             const bookingData = fs.readFileSync('./data/bookings.json'); //read json file
             const allBookings = JSON.parse(bookingData); //convert json to js object
@@ -62,6 +62,7 @@ router.get("/booking", (req, res) => {
     
     const movieTimes = timesData.filter(t => t.movieId === selectedMovie.id); // filter through timesData array, finds all showtimes 
                                                                             // for the selected movie and assigns it to movieTimes variable
+    // Renders the details page showing the specific movie details along with its schedule
     res.render('booking', { movie: selectedMovie, showtimes: movieTimes });
 });
 
@@ -80,7 +81,8 @@ router.get('/booking/seats', (req, res) => {
     const movieId = parseInt(req.query.movieId); // movieId is passed as a query parameter in the URL, and we convert it to an integer using parseInt
     const showingId = parseInt(req.query.showingId); // showingId is also passed as a query parameter in the URL, and we convert it to an integer using parseInt
     const errorMsg = req.query.error || null;
-
+    
+    // Fetch the 3 mandatory data parts required to build this seat page
     const selectedMovie = moviesData.find(m => m.id === movieId); // extract the exect movie object
     const selectedShowtime = timesData.find(t => t.showingId === showingId); // extract the exect showtime object
     const selectedLayout = showingsData.find(s => s.id === showingId); // extract the exect room layout object
@@ -98,7 +100,9 @@ router.get('/booking/seats', (req, res) => {
             b.movieTitle === selectedMovie.title && b.showTime === selectedShowtime.time // filter the bookings to find those that match the selected movie title and showtime
         );
         
-        bookedSeatsList = matchingBookings.flatMap(b => b.selectedSeats); // extract the selectedSeats from the matching bookings and flatten them into a single array
+        //Gathers all previously booked seat arrays (e.g. ['A1','A2'], ['B3']) 
+        // and flattens them into one linear list of strings: ['A1', 'A2', 'B3']
+        bookedSeatsList = matchingBookings.flatMap(b => b.selectedSeats); 
     } catch (error) {
         console.log("Bookings file read error or empty");
     }
@@ -120,6 +124,9 @@ router.get('/booking/seats', (req, res) => {
             }); // push into a clean object array
         });
     });
+    
+    // UI Splitting Logic: Maps the letters alphabetically and slices the rows right down the center 
+    // to render two clean seating columns (Left/Right) in the HTML view
     const seatLayout = Object.keys(rows).sort().map(letter => { // sort the rows alphabetically and map them to a new array
         const rowSeats = rows[letter];
         const half = Math.ceil(rowSeats.length / 2); // calculate the index to split the row into two halves
@@ -238,9 +245,11 @@ if (rating){
 
 if (sortByDate === 'dateAsc' || sortByDate === 'dateDesc') { 
     filteredMovies.sort((movieA, movieB) => {
+        // Finds the scheduled showtimes for both compared movies from times.json
         const timesA = timesData.filter(t => String(t.movieId) === String(movieA.id)); 
         const timesB = timesData.filter(t => String(t.movieId) === String(movieB.id)); 
-
+        
+        // Grabs the first showing date for both movies and converts the string into a JavaScript Date Object
         const dateA = new Date(timesA[0] ? timesA[0].date : ''); 
         const dateB = new Date(timesB[0] ? timesB[0].date : '');
 
@@ -261,9 +270,11 @@ if (sortByDate === 'dateAsc' || sortByDate === 'dateDesc') {
 
 // Injects localized multi-currency data from prices.json matched by active screen selection
 try {
+    //Look up localized currency models dynamically out of prices.json
     const dynamicShowings = JSON.parse(fs.readFileSync('./data/showings.json')); 
     const pricesData = JSON.parse(fs.readFileSync('./data/prices.json'));
-
+    
+    // Match current selection to find out which specific Screen Name
     const selectedLayout = dynamicShowings.find(s => s.id === timeId);    
     if (selectedLayout) {
         const pricingMatch = pricesData.find(p => p.movieId === parseInt(movieId) && p.screenName === selectedLayout.screenName);
