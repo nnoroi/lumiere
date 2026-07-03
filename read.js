@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
         );
     }
     
-    // (Filtering and sorting logic resides here - separated below under stretch goals)
 
     let userBookings = [];
     if (currentUser) { //if user login 
@@ -229,7 +228,6 @@ router.post('/confirm-booking', (req, res) => {
 
 //======================================
 
-// Placed inside the GET '/' home controller to execute queries dynamically
 if (genre) {
     filteredMovies = filteredMovies.filter(movie => movie.genre === genre);
 }
