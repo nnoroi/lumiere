@@ -338,5 +338,20 @@
     "country": "USA",
     "trailer": "https://www.youtube.com/watch?v=kVrqfYjkTdQ",
     "poster": "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
+  },
+  {
+    "id": 21,
+    "title": "Spider Man",
+    "poster": "https://image.tmdb.org/t/p/original/yyB2VJEW3an2xCdcYCPQhn9QERR.jpg",
+    "genre": "Action",
+    "duration": 120,
+    "director": "me",
+    "cast": [
+      "Tom Holland"
+    ],
+    "country": "USA",
+    "description": "IFHAIOF;GOAIOGHFAGFOUAGFUguafgkajgfu;agkfa",
+    "rating": "15",
+    "trailer": "https://www.youtube.com/watch?v=62bIsvRcPv0"
   }
 ]
